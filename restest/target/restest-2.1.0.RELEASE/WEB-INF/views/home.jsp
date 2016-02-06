@@ -14,6 +14,9 @@
                               method="POST">
                             <div class="form-group">
                                 <p>URL: <input class="text form-control" type="text" th:field="*{URL}"/></p>
+                                <input type="hidden"
+                                       name="${_csrf.parameterName}"
+                                       value="${_csrf.token}"/>
                                 <input class="btn btn-success" type="submit" value="Submit">
                             </div>
                         </form>
