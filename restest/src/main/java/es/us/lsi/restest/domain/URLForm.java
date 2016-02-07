@@ -1,4 +1,4 @@
-package es.us.lsi.restest.models;
+package es.us.lsi.restest.domain;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,14 @@ public class URLForm {
     private String METHOD = "";
     private String RESPONSE_CODE = "";
     private Map<String, List<String>> HEADERS = new HashMap<>();
+
+    public URLForm() {
+
+    }
+
+    public URLForm(String URL) {
+        this.URL = URL;
+    }
 
     public URLForm(String URL, String METHOD, String RESPONSE_CODE, Map<String, List<String>> HEADERS) {
         this.URL = URL;

@@ -6,19 +6,21 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class RequestAnswer {
 
-    private final String USER_AGENT = "Mozilla/5.0";
+    public static final String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws Exception {
 
         RequestAnswer http = new RequestAnswer();
 
         System.out.println("Testing 1 - Send Http GET request");
-        http.sendGet();
+        //http.sendGet();
 
         System.out.println("\nTesting 2 - Send Http POST request");
         http.sendPost();
@@ -33,10 +35,9 @@ public class RequestAnswer {
 
 
     // HTTP GET request
-    private void sendGet() throws Exception {
-        String strURL = "http://api.openweathermap.org:80/data/2.5/weather?q=Seville,ES&format=json&appid=2de143494c0b295cca9337e1e96b00e0";
-        //String strURL = "http://jsonplaceholder.typicode.com/posts/1";
+    public static Map<String, List<String>> sendGet(String strURL) throws Exception {
 
+        HashMap<String, List<String>> res = new HashMap<>();
         URL url = new URL(strURL);
 
         Test.syntaxTest(url);
@@ -54,6 +55,10 @@ public class RequestAnswer {
         //get response  headers
         Map<String, List<String>> responseHeaders = con.getHeaderFields();
 
+        res.putAll(requestHeaders);
+        res.put("Fin Request Headers", null);
+        res.putAll(responseHeaders);
+        res.put("Fin Response Headers", null);
 
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + strURL);
@@ -93,16 +98,16 @@ public class RequestAnswer {
         }
         in.close();
 
-        System.out.println("\n--------------------------");
-        //print result
-        System.out.println(response.toString());
+        LinkedList<String> responseString = new LinkedList<>();
+        responseString.add(response.toString());
+        res.put("Response", responseString);
 
-
+        return res;
     }
 
 
     // HTTP POST request
-    private void sendPost() throws Exception {
+    public void sendPost() throws Exception {
 
         String url = "http://jsonplaceholder.typicode.com/posts";
         URL obj = new URL(url);
@@ -147,7 +152,7 @@ public class RequestAnswer {
 
     //TODO Corregir
     // HTTP PUT request
-    private void sendPut() throws Exception {
+    public void sendPut() throws Exception {
         String url = "http://jsonplaceholder.typicode.com/posts/1";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -190,7 +195,7 @@ public class RequestAnswer {
     }
 
     //HTTP DELETE request
-    private void sendDelete() throws Exception {
+    public void sendDelete() throws Exception {
         String url = "http://jsonplaceholder.typicode.com/posts/1";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();

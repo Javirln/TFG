@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
@@ -17,10 +18,10 @@ public class HomeController {
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home() {
+    public ModelAndView home() {
 
-        log.info("Welcome page execution in process");
+        ModelAndView model = new ModelAndView("home");
 
-        return "home";
+        return model;
     }
 }
