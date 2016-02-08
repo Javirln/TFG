@@ -1,13 +1,14 @@
 package es.us.lsi.restest.engine;
 
 
+import es.us.lsi.restest.domain.APIResponse;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,9 +36,10 @@ public class RequestAnswer {
 
 
     // HTTP GET request
-    public static Map<String, List<String>> sendGet(String strURL) throws Exception {
+    public static APIResponse sendGet(String strURL) throws Exception {
 
-        HashMap<String, List<String>> res = new HashMap<>();
+        APIResponse res = new APIResponse();
+        Map<String, String> generalInfo = new HashMap<>();
         URL url = new URL(strURL);
 
         Test.syntaxTest(url);
@@ -55,25 +57,20 @@ public class RequestAnswer {
         //get response  headers
         Map<String, List<String>> responseHeaders = con.getHeaderFields();
 
-        res.putAll(requestHeaders);
-        res.put("Fin Request Headers", null);
-        res.putAll(responseHeaders);
-        res.put("Fin Response Headers", null);
-
         int responseCode = con.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + strURL);
         System.out.println("URL data: ");
         System.out.println("\n--------------------------");
 
-        System.out.println("Protocol = " + url.getProtocol());
-        System.out.println("Authority = " + url.getAuthority());
-        System.out.println("Host = " + url.getHost());
-        System.out.println("Port = " + url.getPort());
-        System.out.println("Path = " + url.getPath());
-        System.out.println("Query = " + url.getQuery());
-        System.out.println("Filename = " + url.getFile());
-        System.out.println("Ref = " + url.getRef());
-        System.out.println("\n--------------------------");
+        generalInfo.put("Protocol", url.getProtocol());
+        generalInfo.put("Authority", url.getAuthority());
+        generalInfo.put("Host", url.getHost());
+        generalInfo.put("Default Port", Integer.toString(url.getDefaultPort()));
+        generalInfo.put("Port ", Integer.toString(url.getPort()).toString());
+        generalInfo.put("Path", url.getPath());
+        generalInfo.put("Query", url.getQuery());
+        generalInfo.put("Filename", url.getFile());
+        generalInfo.put("Ref", url.getRef());
 
 
         System.out.println("Response Code : " + responseCode);
@@ -98,9 +95,10 @@ public class RequestAnswer {
         }
         in.close();
 
-        LinkedList<String> responseString = new LinkedList<>();
-        responseString.add(response.toString());
-        res.put("Response", responseString);
+        res.setRequestHeaders(requestHeaders);
+        res.setResponseHeaders(responseHeaders);
+        res.setGeneralInfo(generalInfo);
+        res.setResponse(response);
 
         return res;
     }

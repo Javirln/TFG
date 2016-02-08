@@ -1,5 +1,6 @@
 package es.us.lsi.restest.controllers;
 
+import es.us.lsi.restest.domain.APIResponse;
 import es.us.lsi.restest.engine.RequestAnswer;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -8,9 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Map;
-
 
 @Controller
 public class RequestController {
@@ -18,14 +16,16 @@ public class RequestController {
 
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     public ModelAndView sendRequest(@RequestParam("url") String url) throws Exception {
-        Map<String, List<String>> responseValues = null;
+        APIResponse responseValues = null;
 
         ModelAndView model = new ModelAndView("home");
 
         responseValues = RequestAnswer.sendGet(url);
 
-        model.addObject("responseValues", responseValues);
-
+        model.addObject("requestHeaders", responseValues.getRequestHeaders());
+        model.addObject("responseHeaders", responseValues.getResponseHeaders());
+        model.addObject("response", responseValues.getResponse().toString());
+        model.addObject("generalInfo", responseValues.getGeneralInfo());
         return model;
     }
 }
