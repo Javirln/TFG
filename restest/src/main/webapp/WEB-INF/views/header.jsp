@@ -20,3 +20,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/flat-blue.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/codemirror.css">
+
+
+<script type="text/javascript" src="/assets/js/codemirror.js"></script>
+<script type="text/javascript" src="/assets/js/javascript.js"></script>
+<script type="text/javascript" src="/assets/js/formatting.js"></script>

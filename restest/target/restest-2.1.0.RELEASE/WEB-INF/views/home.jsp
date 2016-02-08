@@ -53,7 +53,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <div class="title">Request Headers <small> (${requestHeaders.size()})</small></div>
+                                    <div class="title">Request Headers
+                                        <small> (${requestHeaders.size()})</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -69,7 +71,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <div class="title">Response Headers <small> (${responseHeaders.size()})</small></div>
+                                    <div class="title">Response Headers
+                                        <small> (${responseHeaders.size()})</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -85,7 +89,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <div class="title">General Info <small> (${generalInfo.size()})</small></div>
+                                    <div class="title">General Info
+                                        <small> (${generalInfo.size()})</small>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -98,7 +104,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">Response</div>
+                            </div>
+                            <div class="card-body">
+                                <textarea id="codeViewer">
+                                        ${response}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <script>
+            var codeMirror = CodeMirror.fromTextArea(document.getElementById("codeViewer"), {
+                lineNumbers: true,
+                readOnly: true,
+                autofocus: false,
+                mode: "application/json"
+            });
+            function autoFormat() {
+                var totalLines = codeMirror.lineCount();
+                var totalchars = codeMirror.getTextArea().value.length;
+                codeMirror.autoFormatRange({line: 0, ch: 0}, {line: totalLines, ch: totalchars});
+            }
+            autoFormat();
+            codeMirror.scrollTo(0, 0);
+        </script>
     </jsp:body>
 </t:masterpage>
