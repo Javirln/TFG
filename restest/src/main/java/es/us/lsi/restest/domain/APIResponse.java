@@ -4,25 +4,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by javirln on 08/02/16.
- */
 public class APIResponse {
 
-    private Map<String, List<String>> requestHeaders = new HashMap<>();
     private Map<String, List<String>> responseHeaders = new HashMap<>();
+    private String responseCode = "";
+    private Map<String, List<String>> requestHeaders = new HashMap<>();
     private Map<String, String> generalInfo = new HashMap<>();
-    private StringBuffer response = new StringBuffer();
+    private StringBuilder response = new StringBuilder();
 
     public APIResponse() {
         super();
     }
 
-    public APIResponse(Map<String, List<String>> requestHeaders, Map<String, List<String>> responseHeaders, Map<String, String> generalInfo, StringBuffer response) {
-        this.requestHeaders = requestHeaders;
-        this.responseHeaders = responseHeaders;
-        this.generalInfo = generalInfo;
-        this.response = response;
+    public String getContentType() {
+        String res = null;
+        String[] parts = this.responseHeaders.get("Content-Type").get(0).split(";");
+        res = parts[0];
+        return res;
+    }
+
+    public String getResponseCode() {
+        return this.responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
     public Map<String, List<String>> getRequestHeaders() {
@@ -49,12 +55,20 @@ public class APIResponse {
         this.generalInfo = generalInfo;
     }
 
-    public StringBuffer getResponse() {
+    public StringBuilder getResponse() {
         return response;
     }
 
-    public void setResponse(StringBuffer response) {
+    public void setResponse(StringBuilder response) {
         this.response = response;
+    }
+
+    public void resetProperties() {
+        this.responseHeaders = new HashMap<>();
+        this.responseCode = "";
+        this.requestHeaders = new HashMap<>();
+        this.generalInfo = new HashMap<>();
+        this.response = new StringBuilder();
     }
 
     @Override
@@ -71,9 +85,9 @@ public class APIResponse {
 
         APIResponse that = (APIResponse) o;
 
-        if (!requestHeaders.equals(that.requestHeaders)) return false;
-        if (!responseHeaders.equals(that.responseHeaders)) return false;
-        return response.equals(that.response);
+        if (!requestHeaders.equals(requestHeaders)) return false;
+        if (!responseHeaders.equals(responseHeaders)) return false;
+        return response.equals(response);
 
     }
 

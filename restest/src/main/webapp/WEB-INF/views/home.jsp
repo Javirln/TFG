@@ -18,10 +18,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form class="form" action="/sendRequest" method="post">
+                                <form id="mainForm" class="form" action="/sendRequest" method="post">
                                     <div class="form-group">
                                         <div class="sub-title">URL:</div>
-                                        <input class="text form-control" type="text" name="url" required/></p>
+                                        <input id="urlField" class="text form-control" type="text" name="url"
+                                               required/></p>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                         <div class="sub-title">Method:</div>
@@ -41,9 +42,44 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <input class="btn btn-success pull-right" type="submit" value="Submit">
+                                        <input id="submit" class="btn btn-success pull-right" type="submit"
+                                               value="Submit">
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                    <c:if test="${not empty responseValues}">
+                    <div class="col-lg-4 col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <c:choose>
+                                    <c:when test="${responseValues.getResponseCode().startsWith('1')}">
+                                        <h1>Code: <h2><span
+                                                class="btn-primary">${responseValues.getResponseCode()}</span></h2>
+                                        </h1>
+                                    </c:when>
+                                    <c:when test="${responseValues.getResponseCode().startsWith('2')}">
+                                        <h1>Code: <h2><span
+                                                class="btn-success">${responseValues.getResponseCode()}</span></h2>
+                                        </h1>
+                                    </c:when>
+                                    <c:when test="${responseValues.getResponseCode().startsWith('3')}">
+                                        <h1>Code: <h2><span class="btn-info">${responseValues.getResponseCode()}</span>
+                                        </h2>
+                                        </h1>
+                                    </c:when>
+                                    <c:when test="${responseValues.getResponseCode().startsWith('4')}">
+                                        <h1>Code: <h2><span
+                                                class="btn-danger">${responseValues.getResponseCode()}</span></h2>
+                                        </h1>
+                                    </c:when>
+                                    <c:when test="${responseValues.getResponseCode().startsWith('5')}">
+                                        <h1>Code: <h2><span
+                                                class="btn-danger">${responseValues.getResponseCode()}</span></h2>
+                                        </h1>
+                                    </c:when>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -61,7 +97,8 @@
                             <div class="card-body">
                                 <c:forEach items="${requestHeaders}" var="entry">
                                     <ul>
-                                        <li><b>${entry.key}:</b> ${entry.value}</li>
+                                        <li><b>${entry.key}:</b> ${entry.value}
+                                        </li>
                                     </ul>
                                 </c:forEach>
                             </div>
@@ -79,7 +116,8 @@
                             <div class="card-body">
                                 <c:forEach items="${responseHeaders}" var="entry">
                                     <ul>
-                                        <li><b>${entry.key}:</b> ${entry.value}</li>
+                                        <li><b>${entry.key}:</b> ${entry.value}
+                                        </li>
                                     </ul>
                                 </c:forEach>
                             </div>
@@ -97,7 +135,8 @@
                             <div class="card-body">
                                 <c:forEach items="${generalInfo}" var="entry">
                                     <ul>
-                                        <li><b>${entry.key}:</b> ${entry.value}</li>
+                                        <li><b>${entry.key}:</b> ${entry.value}
+                                        </li>
                                     </ul>
                                 </c:forEach>
                             </div>
@@ -118,9 +157,11 @@
                         </div>
                     </div>
                 </div>
+                </c:if>
             </div>
         </div>
         <script>
+            "use strict";
             var codeMirror = CodeMirror.fromTextArea(document.getElementById("codeViewer"), {
                 lineNumbers: true,
                 readOnly: true,
@@ -129,8 +170,8 @@
             });
             function autoFormat() {
                 var totalLines = codeMirror.lineCount();
-                var totalchars = codeMirror.getTextArea().value.length;
-                codeMirror.autoFormatRange({line: 0, ch: 0}, {line: totalLines, ch: totalchars});
+                var totalChars = codeMirror.getTextArea().value.length;
+                codeMirror.autoFormatRange({line: 0, ch: 0}, {line: totalLines, ch: totalChars});
             }
             autoFormat();
             codeMirror.scrollTo(0, 0);

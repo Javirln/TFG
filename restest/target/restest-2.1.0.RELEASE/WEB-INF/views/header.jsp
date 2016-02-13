@@ -22,7 +22,24 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/flat-blue.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/codemirror.css">
 
-
+    <!-- Javascript -->
+    <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/js/Chart.min.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap-switch.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.matchHeight-min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/assets/js/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="/assets/js/ace/ace.js"></script>
+    <script type="text/javascript" src="/assets/js/ace/mode-html.js"></script>
+    <script type="text/javascript" src="/assets/js/ace/theme-github.js"></script>
+    <script type="text/javascript" src="/assets/js/app.js"></script>
+    <script type="text/javascript" src="/assets/js/index.js"></script>
     <script type="text/javascript" src="/assets/js/codemirror.js"></script>
-    <script type="text/javascript" src="/assets/js/javascript.js"></script>
+    <script type="text/javascript" src="/assets/js/mode/javascript.js"></script>
+    <script type="text/javascript" src="/assets/js/formatting.js"></script>
+    <script type="text/javascript" src="/assets/js/mode/css.js"></script>
+    <script type="text/javascript" src="/assets/js/mode/htmlmixed.js"></script>
+    <script type="text/javascript" src="/assets/js/mode/xml.js"></script>
     <script type="text/javascript" src="/assets/js/formatting.js"></script>

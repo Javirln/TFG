@@ -13,19 +13,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RequestController {
     private static final Logger log = Logger.getLogger(RequestController.class);
+    public static APIResponse responseValues = new APIResponse();
 
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     public ModelAndView sendRequest(@RequestParam("url") String url) throws Exception {
-        APIResponse responseValues = null;
 
         ModelAndView model = new ModelAndView("home");
 
-        responseValues = RequestAnswer.sendGet(url);
+        RequestAnswer.sendGet(url);
 
         model.addObject("requestHeaders", responseValues.getRequestHeaders());
         model.addObject("responseHeaders", responseValues.getResponseHeaders());
         model.addObject("response", responseValues.getResponse().toString());
         model.addObject("generalInfo", responseValues.getGeneralInfo());
+        model.addObject("responseValues", responseValues);
+
         return model;
     }
 }
