@@ -1,0 +1,4 @@
+#urlField {
+    height: 50px;
+    background: url("../images/required.svg") no-repeat top right;
+}

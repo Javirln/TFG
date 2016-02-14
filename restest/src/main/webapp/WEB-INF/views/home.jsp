@@ -2,7 +2,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page session="false" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 
 <t:masterpage>
     <jsp:body>
@@ -41,6 +40,20 @@
                                                     POST
                                                 </label>
                                             </div>
+                                            <div class="radio3 radio-check radio-inline">
+                                                <input type="radio" id="radio3" name="optionUPDATE" value="option3"
+                                                       disabled>
+                                                <label for="radio3">
+                                                    UPDATE
+                                                </label>
+                                            </div>
+                                            <div class="radio3 radio-check radio-inline">
+                                                <input type="radio" id="radio4" name="optionDELELTE" value="option4"
+                                                       disabled>
+                                                <label for="radio4">
+                                                    DELETE
+                                                </label>
+                                            </div>
                                         </div>
                                         <input id="submit" class="btn btn-success pull-right" type="submit"
                                                value="Submit">
@@ -66,8 +79,7 @@
                                     </c:when>
                                     <c:when test="${responseValues.getResponseCode().startsWith('3')}">
                                         <h1>Code: <h2><span class="btn-info">${responseValues.getResponseCode()}</span>
-                                        </h2>
-                                        </h1>
+                                        </h2></h1>
                                     </c:when>
                                     <c:when test="${responseValues.getResponseCode().startsWith('4')}">
                                         <h1>Code: <h2><span
@@ -85,41 +97,54 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4">
+                    <div class="col-xs-8">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <div class="title">Request Headers
-                                        <small> (${requestHeaders.size()})</small>
-                                    </div>
+                                    <div class="title">Headers</div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <c:forEach items="${requestHeaders}" var="entry">
-                                    <ul>
-                                        <li><b>${entry.key}:</b> ${entry.value}
-                                        </li>
+                            <div class="card-body no-padding">
+                                <div role="tabpanel">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#responseHeaders"
+                                                                                  aria-controls="responseHeaders"
+                                                                                  role="tab"
+                                                                                  data-toggle="tab">Response Headers
+                                            <small> (${responseHeaders.size()})</small>
+                                        </a></li>
+                                        <li role="presentation"><a href="#requestHeaders"
+                                                                   aria-controls="requestHeaders"
+                                                                   role="tab"
+                                                                   data-toggle="tab">Request Headers
+                                            <small> (${requestHeaders.size()})</small>
+                                        </a></li>
+
                                     </ul>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <div class="title">Response Headers
-                                        <small> (${responseHeaders.size()})</small>
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="responseHeaders">
+                                            <c:forEach items="${responseHeaders}" var="entry">
+                                                <ul>
+                                                    <li>
+                                                        <b>${entry.key}:</b> ${entry.value.toString().substring(1, entry.value.toString().length()-1)}
+                                                    </li>
+                                                </ul>
+                                            </c:forEach>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="requestHeaders">
+                                            <c:forEach items="${requestHeaders}" var="entry">
+                                                <ul>
+                                                    <li>
+                                                        <b>${entry.key}:</b> ${entry.value.toString().substring(1, entry.value.toString().length()-1)}
+                                                    </li>
+                                                </ul>
+                                            </c:forEach>
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <c:forEach items="${responseHeaders}" var="entry">
-                                    <ul>
-                                        <li><b>${entry.key}:</b> ${entry.value}
-                                        </li>
-                                    </ul>
-                                </c:forEach>
                             </div>
                         </div>
                     </div>
@@ -147,12 +172,30 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
-                                <div class="title">Response</div>
+                                <div class="title">Results</div>
                             </div>
-                            <div class="card-body">
-                                <textarea id="codeViewer">
-                                        ${response}
-                                </textarea>
+                        </div>
+                        <div class="card-body no-padding">
+                            <div role="tabpanel">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#response" aria-controls="response"
+                                                                              role="tab"
+                                                                              data-toggle="tab">Response</a></li>
+                                    <li role="presentation"><a href="#test" aria-controls="test" role="tab"
+                                                               data-toggle="tab">Tests</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="response">
+                                    <textarea id="codeViewer">
+                                            ${response}
+                                    </textarea>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="test">
+                                        Test
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -5,7 +6,7 @@
     	<jsp:include page="../views/header.jsp" />
 	</head>
     <body class="flat-blue">
-        <div class="app-container expanded">
+        <div class="app-container">
             <div class="row content-container">
                 <jsp:include page="../views/menu.jsp"/>
     	        <jsp:doBody/>
