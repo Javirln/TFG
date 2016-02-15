@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-8">
+                    <div class="col-lg-8 col-md-8">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-lg-4 col-md-4">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
@@ -181,7 +181,10 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <div class="title">Results</div>
+                                    <div class="title">Results <i
+                                            class="fa fa-question-circle" data-toggle="tooltip"
+                                            data-placement="right"
+                                            title="By default, the response is formatted as JSON."></i></div>
                                 </div>
                             </div>
                             <div class="card-body no-padding">
@@ -201,7 +204,12 @@
                 lineNumbers: true,
                 readOnly: true,
                 autofocus: false,
-                mode: "application/json"
+                mode: <c:choose>
+                        <c:when test="${responseHeaders.get('Content-Type').get(0).indexOf(';') != -1}">
+                        "${responseHeaders.get("Content-Type").get(0).substring(0,responseHeaders.get("Content-Type").get(0).indexOf(";"))}"
+                </c:when>
+                <c:otherwise>"application/json"</c:otherwise>
+                </c:choose>
             });
             function autoFormat() {
                 var totalLines = codeMirror.lineCount();
@@ -210,6 +218,9 @@
             }
             autoFormat();
             codeMirror.scrollTo(0, 0);
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         </script>
     </jsp:body>
 </t:masterpage>
