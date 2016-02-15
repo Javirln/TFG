@@ -20,12 +20,16 @@ public class RequestController {
 
         RequestAnswer.sendGet(url);
 
+        model.addObject("url", url);
         model.addObject("requestHeaders", responseValues.getRequestHeaders());
         model.addObject("responseHeaders", responseValues.getResponseHeaders());
         model.addObject("response", responseValues.getResponse().toString());
         model.addObject("generalInfo", responseValues.getGeneralInfo());
         model.addObject("responseValues", responseValues);
-
+        
+        int index = responseValues.getResponseHeaders().get("Content-Type").get(0).indexOf(';');
+        model.addObject("index", index);
+        
         return model;
     }
 }

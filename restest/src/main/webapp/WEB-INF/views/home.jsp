@@ -16,11 +16,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form id="mainForm" class="form" action="/sendRequest" method="post">
+                                <form id="mainForm" class="form" action="sendRequest" method="post">
                                     <div class="form-group">
                                         <div class="sub-title">URL:</div>
                                         <input id="urlField" class="text form-control" type="text" name="url" required
-                                               aria-required="true"/></p>
+                                               aria-required="true" value="${url}"/></p>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                         <div class="sub-title">Method:</div>
@@ -205,8 +205,8 @@
                 readOnly: true,
                 autofocus: false,
                 mode: <c:choose>
-                        <c:when test="${responseHeaders.get('Content-Type').get(0).indexOf(';') != -1}">
-                        "${responseHeaders.get("Content-Type").get(0).substring(0,responseHeaders.get("Content-Type").get(0).indexOf(";"))}"
+                        <c:when test="${index != -1}">
+                        '${responseHeaders.get("Content-Type").get(0).substring(0,index)}'
                 </c:when>
                 <c:otherwise>"application/json"</c:otherwise>
                 </c:choose>

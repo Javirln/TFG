@@ -14,13 +14,16 @@ public class HomeController {
 
     private static final Logger log = Logger.getLogger(HomeController.class);
 
+    public ModelAndView getView(){
+    	return new ModelAndView("home");
+    }
     /**
      * Simply selects the home view to render by returning its name.
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView home() {
 
-        ModelAndView model = new ModelAndView("home");
+        ModelAndView model = getView();
 
         return model;
     }
