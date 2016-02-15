@@ -6,7 +6,7 @@
     	<jsp:include page="../views/header.jsp" />
 	</head>
     <body class="flat-blue">
-        <div class="app-container">
+    <div class="app-container">
             <div class="row content-container">
                 <jsp:include page="../views/menu.jsp"/>
     	        <jsp:doBody/>
