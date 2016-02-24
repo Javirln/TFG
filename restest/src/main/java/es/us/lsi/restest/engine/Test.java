@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 
 
 public class Test {
+    public static HashMap<String, Map<String, Boolean>> resultMap = new HashMap<>();
+    private static Map<String, Boolean> testValor = new HashMap<>();
+
+
     /**
      * Comprueba que la uri que recibe es de la de forma Hyphen
      *
@@ -90,7 +94,22 @@ public class Test {
         System.out.println(value + " ->" + " test Alphanumeric: " + testAlphanumeric(value));
     }
 
+    private static void setTestToResult(String string) {
+        testValor.put("fullNumber", testFullNumber(string));
+        testValor.put("hyphen", testHyphen(string));
+        testValor.put("camelCase", testCamelCase(string));
+        testValor.put("Snake_case", testSnakeCase(string));
+        testValor.put("Alphanumeric", testAlphanumeric(string));
+    }
+
     public static void syntaxTest(URL url) {
+        resultMap = new HashMap<>();
+        testValor = new HashMap<>();
+        testValor.put("fullNumber", false);
+        testValor.put("hyphen", false);
+        testValor.put("camelCase", false);
+        testValor.put("Snake_case", false);
+        testValor.put("Alphanumeric", false);
         String urlToString = url.toString();
         //Parseamos la url usando /
         String[] parts = urlToString.split("/");
@@ -106,6 +125,8 @@ public class Test {
                     //Desechamos la parte izquierda del ?
                     if (paramsToMap[0].contains("?")) {
                         String[] aux = paramsToMap[0].split("\\?");
+                        //La siguiente linea es para coger lo que esta a la izquierda de ?
+                        queryDic.put(aux[0], paramsToMap[1]);
                         queryDic.put(aux[1], paramsToMap[1]);
                         continue;
                     }
@@ -113,12 +134,25 @@ public class Test {
                 }
                 for (Map.Entry<String, String> entry : queryDic.entrySet()) {
                     System.out.println(entry.getKey() + " ==> " + entry.getValue());
+                    setTestToResult(entry.getKey());
+                    resultMap.put(entry.getKey(), testValor);
+
                     showResults(entry.getKey());
                 }
                 continue;
             }
+            setTestToResult(parts[i]);
+            resultMap.put(parts[i], testValor);
+
             showResults(parts[i]);
         }
+        testValor = new HashMap<>();
+        testValor.put("TrailingSlah", new Boolean(testTrailingForwardSlash(urlToString)));
+        resultMap.put(urlToString, testValor);
         System.out.println(urlToString + " ->" + " test TrailingSlash: " + testTrailingForwardSlash(urlToString));
+    }
+
+    public static Map<String, Boolean> testResultsByKey(String string) {
+        return resultMap.get(string);
     }
 }

@@ -2,6 +2,7 @@ package es.us.lsi.restest.controllers;
 
 import es.us.lsi.restest.domain.APIResponse;
 import es.us.lsi.restest.engine.RequestAnswer;
+import es.us.lsi.restest.engine.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,10 +27,10 @@ public class RequestController {
         model.addObject("response", responseValues.getResponse().toString());
         model.addObject("generalInfo", responseValues.getGeneralInfo());
         model.addObject("responseValues", responseValues);
-        
+        model.addObject("test", Test.resultMap);
         int index = responseValues.getResponseHeaders().get("Content-Type").get(0).indexOf(';');
         model.addObject("index", index);
-        
+
         return model;
     }
 }

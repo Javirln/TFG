@@ -44,3 +44,4 @@
 <script type="text/javascript" src="assets/js/mode/htmlmixed.js"></script>
 <script type="text/javascript" src="assets/js/mode/xml.js"></script>
 <script type="text/javascript" src="assets/js/formatting.js"></script>
+<script type="text/javascript" src="assets/js/jquery.highlight.js"></script>

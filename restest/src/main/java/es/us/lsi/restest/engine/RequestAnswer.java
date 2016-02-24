@@ -18,36 +18,17 @@ public class RequestAnswer {
     public static final String USER_AGENT = "Mozilla/5.0";
     public static int responseCode = 0;
 
-    public static void main(String[] args) throws Exception {
-
-        RequestAnswer http = new RequestAnswer();
-
-        System.out.println("Testing 1 - Send Http GET request");
-        //http.sendGet();
-
-        System.out.println("\nTesting 2 - Send Http POST request");
-        http.sendPost();
-
-        System.out.println("\nTesting 3 - Send Http PUT request");
-        http.sendPut();
-
-        System.out.println("\nTesting 4 - Send Http DELETE request");
-        http.sendDelete();
-
-    }
-
-
     // HTTP GET request
     public static void sendGet(String strURL) throws Exception {
+        HttpURLConnection con = null;
         try {
 
             Map<String, String> generalInfo = new HashMap<>();
             URL url = new URL(strURL);
 
-            //Test.syntaxTest(url);
+            Test.syntaxTest(url);
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
+            con = (HttpURLConnection) url.openConnection();
             // Optional default is GET
             con.setRequestMethod("GET");
 
@@ -103,10 +84,17 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-
-
         } catch (IOException io) {
-            System.out.println(io.toString());
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getErrorStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            RequestController.responseValues.setResponse(new StringBuilder(response));
         }
 
     }
