@@ -15,20 +15,36 @@ public class RequestController {
     public static APIResponse responseValues = new APIResponse();
 
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
-    public ModelAndView sendRequest(@RequestParam("url") String url) throws Exception {
+    public ModelAndView sendRequest(@RequestParam("url") String url,
+                                    @RequestParam("method") String method, @RequestParam("params") String params) throws Exception {
 
         ModelAndView model = new ModelAndView("home");
-
-        RequestAnswer.sendGet(url);
-
+        switch (method) {
+            case "optionGET":
+                RequestAnswer.sendGet(url);
+                break;
+            case "optionPOST":
+                RequestAnswer.sendPost(url, params);
+                break;
+            case "optionPUT":
+                RequestAnswer.sendPut(url, params);
+                break;
+            case "optionDELETE":
+                RequestAnswer.sendDelete(url, params);
+                break;
+            default:
+                RequestAnswer.sendGet(url);
+        }
         model.addObject("url", url);
+        model.addObject("params", params);
+        model.addObject("method", method);
         model.addObject("requestHeaders", responseValues.getRequestHeaders());
         model.addObject("responseHeaders", responseValues.getResponseHeaders());
         model.addObject("response", responseValues.getResponse().toString());
         model.addObject("generalInfo", responseValues.getGeneralInfo());
         model.addObject("responseValues", responseValues);
         model.addObject("test", Test.resultMap);
-        int index = responseValues.getResponseHeaders().get("Content-Type").get(0).indexOf(';');
+        int index = responseValues.getResponseHeaders().get("content-type").get(0).indexOf(';');
         model.addObject("index", index);
 
         return model;

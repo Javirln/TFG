@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class Test {
     public static HashMap<String, Map<String, Boolean>> resultMap = new HashMap<>();
     private static Map<String, Boolean> testValor = new HashMap<>();
@@ -115,7 +114,7 @@ public class Test {
         String[] parts = urlToString.split("/");
         for (int i = 0; i <= parts.length - 1; i++) {
             //Comprobamos que la parte en la que estamos no pertenece a la parte de la query
-            if (parts[i].contains("&")) {
+            if (parts[i].contains("&") || parts[i].contains("?")) {
                 Map<String, String> queryDic = new HashMap<>();
                 String queryParams = parts[i];
                 String[] queryParts = queryParams.split("&");
@@ -155,4 +154,6 @@ public class Test {
     public static Map<String, Boolean> testResultsByKey(String string) {
         return resultMap.get(string);
     }
+
+
 }

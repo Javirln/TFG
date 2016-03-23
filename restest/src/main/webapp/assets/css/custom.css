@@ -2,3 +2,7 @@
     height: 50px;
     background: url("../images/required.svg") no-repeat top right;
 }
+
+.highlight {
+    background-color: yellow
+}

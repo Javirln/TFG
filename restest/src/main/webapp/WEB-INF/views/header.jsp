@@ -21,6 +21,7 @@
 <link rel="stylesheet" type="text/css" href="assets/css/flat-blue.css">
 <link rel="stylesheet" type="text/css" href="assets/css/codemirror.css">
 <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+<link rel="stylesheet" type="text/css" href="assets/js/addon/lint/lint.css">
 
 <!-- Javascript -->
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -45,3 +46,8 @@
 <script type="text/javascript" src="assets/js/mode/xml.js"></script>
 <script type="text/javascript" src="assets/js/formatting.js"></script>
 <script type="text/javascript" src="assets/js/jquery.highlight.js"></script>
+<script type="text/javascript" src="assets/js/addon/lint/lint.js"></script>
+<script type="text/javascript" src="assets/js/addon/lint/jsonlint.js"></script>
+<script type="text/javascript" src="assets/js/addon/lint/json-lint.js"></script>
+<script type="text/javascript" src="assets/js/addon/edit/closebrackets.js"></script>
+<script type="text/javascript" src="assets/js/autorefresh.js"></script>
