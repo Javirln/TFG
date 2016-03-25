@@ -367,7 +367,7 @@
                 if (type == wanted) return cont();
                 else if (wanted == ";") return pass();
                 else return cont(exp);
-            };
+            }
             return exp;
         }
 
@@ -394,7 +394,7 @@
             if (type == "class") return cont(pushlex("form"), className, poplex);
             if (type == "export") return cont(pushlex("stat"), afterExport, poplex);
             if (type == "import") return cont(pushlex("stat"), afterImport, poplex);
-            if (type == "module") return cont(pushlex("form"), pattern, pushlex("}"), expect("{"), block, poplex, poplex)
+            if (type == "module") return cont(pushlex("form"), pattern, pushlex("}"), expect("{"), block, poplex, poplex);
             return pass(pushlex("stat"), expression, expect(";"), poplex);
         }
 
@@ -594,7 +594,7 @@
         }
 
         function pattern(type, value) {
-            if (type == "modifier") return cont(pattern)
+            if (type == "modifier") return cont(pattern);
             if (type == "variable") {
                 register(value);
                 return cont();
@@ -843,7 +843,7 @@
 
             expressionAllowed: expressionAllowed,
             skipExpression: function (state) {
-                var top = state.cc[state.cc.length - 1]
+                var top = state.cc[state.cc.length - 1];
                 if (top == expression || top == expressionNoComma) state.cc.pop()
             }
         };

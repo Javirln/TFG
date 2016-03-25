@@ -20,10 +20,11 @@
                                                                                                  data-toggle="tab">General</a>
                                         </li>
                                         <c:if test="${not empty responseValues}">
-                                            <li id="resultsId" role="presentation" onclick="codemirrorRefresh()"><a href="#results"
-                                                                                      aria-controls="results"
-                                                                                      role="tab"
-                                                                                      data-toggle="tab">Results</a>
+                                            <li id="resultsId" role="presentation"><a
+                                                    href="#results"
+                                                    aria-controls="results"
+                                                    role="tab"
+                                                    data-toggle="tab">Results</a>
                                             </li>
                                             <li id="testId" role="presentation"><a href="#test"
                                                                                    aria-controls="test"
@@ -102,7 +103,8 @@
                                                                             </div>
                                                                             <div>
                                                                                 <textarea id="headersToSend"
-                                                                                          name="#"></textarea>
+                                                                                          name="headersToSend"><c:out
+                                                                                        value="${headers}"></c:out></textarea>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -232,7 +234,7 @@
                                                                                                         <b><c:out
                                                                                                                 value="${entry.key}:"/></b>
                                                                                                         <c:out
-                                                                                                                value="${entry.value.toString().substring(1, entry.value.toString().length()-1)}"/>
+                                                                                                                value="${entry.value.toString()}"/>
                                                                                                     </li>
                                                                                                 </ul>
                                                                                             </c:forEach>
@@ -334,6 +336,7 @@
                 gutters: ["CodeMirror-lint-markers"],
                 lint: true
             });
+
             var paramsMirror = CodeMirror.fromTextArea(document.getElementById("headersToSend"), {
                 lineNumbers: true,
                 mode: "application/json",
@@ -341,6 +344,7 @@
                 gutters: ["CodeMirror-lint-markers"],
                 lint: true
             });
+
             var codeMirror = CodeMirror.fromTextArea(document.getElementById("codeViewer"), {
                 lineNumbers: true,
                 readOnly: true,
@@ -362,8 +366,8 @@
                 codeMirror.autoFormatRange({line: 0, ch: 0}, {line: totalLines, ch: totalChars});
             }
             autoFormat();
-            codeMirror.scrollTo(0,0);
-            
+            codeMirror.scrollTo(0, 0);
+
         </script>
     </jsp:body>
 </t:masterpage>

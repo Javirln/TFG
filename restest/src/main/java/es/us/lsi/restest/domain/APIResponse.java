@@ -8,7 +8,7 @@ public class APIResponse {
 
     private Map<String, List<String>> responseHeaders = new HashMap<>();
     private String responseCode = "";
-    private Map<String, List<String>> requestHeaders = new HashMap<>();
+    private Map<String, String> requestHeaders = new HashMap<>();
     private Map<String, String> generalInfo = new HashMap<>();
     private StringBuilder response = new StringBuilder();
 
@@ -31,11 +31,11 @@ public class APIResponse {
         this.responseCode = responseCode;
     }
 
-    public Map<String, List<String>> getRequestHeaders() {
+    public Map<String, String> getRequestHeaders() {
         return requestHeaders;
     }
 
-    public void setRequestHeaders(Map<String, List<String>> requestHeaders) {
+    public void setRequestHeaders(Map<String, String> requestHeaders) {
         this.requestHeaders = requestHeaders;
     }
 

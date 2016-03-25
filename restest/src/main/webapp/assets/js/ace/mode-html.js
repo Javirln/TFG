@@ -25,7 +25,7 @@ DocCommentHighlightRules.getTagRule = function(start) {
         token : "comment.doc.tag.storage.type",
         regex : "\\b(?:TODO|FIXME|XXX|HACK)\\b"
     };
-}
+};
 
 DocCommentHighlightRules.getStartRule = function(start) {
     return {
@@ -1409,7 +1409,7 @@ var CssCompletions = function() {
         }
 
         this.completionsDefined = true;
-    }
+    };
 
     this.getCompletions = function(state, session, pos, prefix) {
         if (!this.completionsDefined) {
@@ -1544,7 +1544,7 @@ var CssBehaviour = function () {
         }
     });
 
-}
+};
 oop.inherits(CssBehaviour, CstyleBehaviour);
 
 exports.CssBehaviour = CssBehaviour;
@@ -1815,7 +1815,7 @@ var XmlHighlightRules = function(normalize) {
                     stack.splice(0);
                     return this.token;
             }}
-        ]
+        ];
 
         this.embedRules(HighlightRules, prefix, [{
             token: ["meta.tag.punctuation.end-tag-open.xml", "meta.tag." + tag + ".tag-name.xml"],
@@ -2294,7 +2294,7 @@ function is(token, type) {
             }
             else if (this.optionalEndTags.hasOwnProperty(top.tagName)) {
                 stack.pop();
-                continue;
+
             } else {
                 return null;
             }

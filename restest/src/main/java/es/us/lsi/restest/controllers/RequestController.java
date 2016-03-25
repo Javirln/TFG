@@ -16,28 +16,31 @@ public class RequestController {
 
     @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
     public ModelAndView sendRequest(@RequestParam("url") String url,
-                                    @RequestParam("method") String method, @RequestParam("params") String params) throws Exception {
+                                    @RequestParam("method") String method,
+                                    @RequestParam("params") String params,
+                                    @RequestParam("headersToSend") String headers) throws Exception {
 
         ModelAndView model = new ModelAndView("home");
         switch (method) {
             case "optionGET":
-                RequestAnswer.sendGet(url);
+                RequestAnswer.sendGet(url, headers);
                 break;
             case "optionPOST":
-                RequestAnswer.sendPost(url, params);
+                RequestAnswer.sendPost(url, params, headers);
                 break;
             case "optionPUT":
-                RequestAnswer.sendPut(url, params);
+                RequestAnswer.sendPut(url, params, headers);
                 break;
             case "optionDELETE":
-                RequestAnswer.sendDelete(url, params);
+                RequestAnswer.sendDelete(url, params, headers);
                 break;
             default:
-                RequestAnswer.sendGet(url);
+                RequestAnswer.sendGet(url, headers);
         }
         model.addObject("url", url);
         model.addObject("params", params);
         model.addObject("method", method);
+        model.addObject("headers", headers);
         model.addObject("requestHeaders", responseValues.getRequestHeaders());
         model.addObject("responseHeaders", responseValues.getResponseHeaders());
         model.addObject("response", responseValues.getResponse().toString());

@@ -1263,8 +1263,7 @@
         // Used to work around IE issue with selection being forgotten when focus moves away from textarea
         this.hasSelection = false;
         this.composing = null;
-    };
-
+    }
     function hiddenTextarea() {
         var te = elt("textarea", null, null, "position: absolute; padding: 0; width: 1px; height: 1em; outline: none");
         var div = elt("div", [te], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
@@ -1300,14 +1299,14 @@
             });
 
             on(te, "paste", function (e) {
-                if (signalDOMEvent(cm, e) || handlePaste(e, cm)) return
+                if (signalDOMEvent(cm, e) || handlePaste(e, cm)) return;
 
                 cm.state.pasteIncoming = true;
                 input.fastPoll();
             });
 
             function prepareCopyCut(e) {
-                if (signalDOMEvent(cm, e)) return
+                if (signalDOMEvent(cm, e)) return;
                 if (cm.somethingSelected()) {
                     lastCopied = cm.getSelections();
                     if (input.inaccurateSelection) {
@@ -1348,7 +1347,7 @@
 
             on(te, "compositionstart", function () {
                 var start = cm.getCursor("from");
-                if (input.composing) input.composing.range.clear()
+                if (input.composing) input.composing.range.clear();
                 input.composing = {
                     start: start,
                     range: cm.markText(start, cm.getCursor("to"), {className: "CodeMirror-composing"})
@@ -1554,8 +1553,8 @@
                 operation(cm, setSelection)(cm.doc, simpleSelection(pos), sel_dontScroll);
 
             var oldCSS = te.style.cssText, oldWrapperCSS = input.wrapper.style.cssText;
-            input.wrapper.style.cssText = "position: absolute"
-            var wrapperBox = input.wrapper.getBoundingClientRect()
+            input.wrapper.style.cssText = "position: absolute";
+            var wrapperBox = input.wrapper.getBoundingClientRect();
             te.style.cssText = "position: absolute; width: 30px; height: 30px; top: " + (e.clientY - wrapperBox.top - 5) +
                 "px; left: " + (e.clientX - wrapperBox.left - 5) + "px; z-index: 1000; background: " +
                 (ie ? "rgba(255, 255, 255, .05)" : "transparent") +
@@ -1590,7 +1589,7 @@
 
             function rehide() {
                 input.contextMenuPending = false;
-                input.wrapper.style.cssText = oldWrapperCSS
+                input.wrapper.style.cssText = oldWrapperCSS;
                 te.style.cssText = oldCSS;
                 if (ie && ie_version < 9) display.scrollbars.setScrollTop(display.scroller.scrollTop = scrollPos);
 
@@ -1647,7 +1646,7 @@
 
             on(div, "paste", function (e) {
                 if (!signalDOMEvent(cm, e)) handlePaste(e, cm);
-            })
+            });
 
             on(div, "compositionstart", function (e) {
                 var data = e.data;
@@ -1692,7 +1691,7 @@
             });
 
             function onCopyCut(e) {
-                if (signalDOMEvent(cm, e)) return
+                if (signalDOMEvent(cm, e)) return;
                 if (cm.somethingSelected()) {
                     lastCopied = cm.getSelections();
                     if (e.type == "cut") cm.replaceSelection("", null, "cut");
@@ -1944,7 +1943,7 @@
         },
         applyComposition: function (composing) {
             if (this.cm.isReadOnly())
-                operation(this.cm, regChange)(this.cm)
+                operation(this.cm, regChange)(this.cm);
             else if (composing.data && composing.data != composing.startData)
                 operation(this.cm, applyTextInput)(this.cm, composing.data, 0, composing.sel);
         },
@@ -3635,7 +3634,7 @@
                 prevTouch = d.activeTouch;
                 prevTouch.end = +new Date;
             }
-        };
+        }
         function isMouseLikeTouchEvent(e) {
             if (e.touches.length != 1) return false;
             var touch = e.touches[0];
@@ -5116,7 +5115,7 @@
 
         function findNextLine() {
             var l = line + dir;
-            if (l < doc.first || l >= doc.first + doc.size) return false
+            if (l < doc.first || l >= doc.first + doc.size) return false;
             line = l;
             return lineObj = getLine(doc, l);
         }
@@ -6804,7 +6803,6 @@
     function detachSharedMarkers(markers) {
         for (var i = 0; i < markers.length; i++) {
             var marker = markers[i], linked = [marker.primary.doc];
-            ;
             linkedDocs(marker.primary.doc, function (d) {
                 linked.push(d);
             });
@@ -7633,7 +7631,7 @@
                 spanStyle = spanEndStyle = spanStartStyle = title = css = "";
                 collapsed = null;
                 nextChange = Infinity;
-                var foundBookmarks = [], endStyles
+                var foundBookmarks = [], endStyles;
                 for (var j = 0; j < spans.length; ++j) {
                     var sp = spans[j], m = sp.marker;
                     if (m.type == "bookmark" && sp.from == pos && m.widgetNode) {
@@ -7646,7 +7644,7 @@
                         if (m.className) spanStyle += " " + m.className;
                         if (m.css) css = (css ? css + ";" : "") + m.css;
                         if (m.startStyle && sp.from == pos) spanStartStyle += " " + m.startStyle;
-                        if (m.endStyle && sp.to == nextChange) (endStyles || (endStyles = [])).push(m.endStyle, sp.to)
+                        if (m.endStyle && sp.to == nextChange) (endStyles || (endStyles = [])).push(m.endStyle, sp.to);
                         if (m.title && !title) title = m.title;
                         if (m.collapsed && (!collapsed || compareCollapsedMarkers(collapsed.marker, m) < 0))
                             collapsed = sp;
@@ -7655,7 +7653,7 @@
                     }
                 }
                 if (endStyles) for (var j = 0; j < endStyles.length; j += 2)
-                    if (endStyles[j + 1] == nextChange) spanEndStyle += " " + endStyles[j]
+                    if (endStyles[j + 1] == nextChange) spanEndStyle += " " + endStyles[j];
 
                 if (!collapsed || collapsed.from == pos) for (var j = 0; j < foundBookmarks.length; ++j)
                     buildCollapsedSpan(builder, 0, foundBookmarks[j]);
@@ -8802,11 +8800,11 @@
         }
     };
 
-    var noHandlers = []
+    var noHandlers = [];
 
     function getHandlers(emitter, type, copy) {
-        var arr = emitter._handlers && emitter._handlers[type]
-        if (copy) return arr && arr.length > 0 ? arr.slice() : noHandlers
+        var arr = emitter._handlers && emitter._handlers[type];
+        if (copy) return arr && arr.length > 0 ? arr.slice() : noHandlers;
         else return arr || noHandlers
     }
 
@@ -8816,7 +8814,7 @@
         else if (emitter.detachEvent)
             emitter.detachEvent("on" + type, f);
         else {
-            var handlers = getHandlers(emitter, type, false)
+            var handlers = getHandlers(emitter, type, false);
             for (var i = 0; i < handlers.length; ++i)
                 if (handlers[i] == f) {
                     handlers.splice(i, 1);
@@ -8826,7 +8824,7 @@
     };
 
     var signal = CodeMirror.signal = function (emitter, type /*, values...*/) {
-        var handlers = getHandlers(emitter, type, true)
+        var handlers = getHandlers(emitter, type, true);
         if (!handlers.length) return;
         var args = Array.prototype.slice.call(arguments, 2);
         for (var i = 0; i < handlers.length; ++i) handlers[i].apply(null, args);
@@ -8842,7 +8840,7 @@
     // them to be executed when the last operation ends, or, if no
     // operation is active, when a timeout fires.
     function signalLater(emitter, type /*, values...*/) {
-        var arr = getHandlers(emitter, type, false)
+        var arr = getHandlers(emitter, type, false);
         if (!arr.length) return;
         var args = Array.prototype.slice.call(arguments, 2), list;
         if (operationGroup) {
@@ -8857,7 +8855,7 @@
             return function () {
                 f.apply(null, args);
             };
-        };
+        }
         for (var i = 0; i < arr.length; ++i)
             list.push(bnd(arr[i]));
     }
@@ -8961,7 +8959,7 @@
             pos = nextTab + 1;
             if (col >= goal) return pos;
         }
-    }
+    };
 
     var spaceStrs = [""];
 
@@ -9016,8 +9014,7 @@
         }
         if (props) copyObj(props, inst);
         return inst;
-    };
-
+    }
     function copyObj(obj, target, overwrite) {
         if (!target) target = {};
         for (var prop in obj)
