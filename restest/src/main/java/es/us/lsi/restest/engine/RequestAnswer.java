@@ -9,9 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,22 +17,55 @@ import java.util.Map;
 
 public class RequestAnswer {
 
+    private static final Long CONNECTION_TIMEOUT = 10000L;
+    private static final Long SOCKET_TIMEOUT = 10000L;
     public static Map<String, String> generalInfo = new HashMap<>();
 
     // HTTP GET request
-    public static void sendGet(String strURL, Object headers) {
+    public static void sendGet(String strURL, Object headers, Integer connectionTimeout, Integer socketTimeout) {
         try {
             AbstractMap<String, String> localHeaders;
+
+            Long localTimeout;
+            Long localSocketTimeout;
 
             localHeaders = parser(headers);
 
             URL url = new URL(strURL);
 
-            Test.syntaxTest(url);
+            Test.checkURL(url);
+
+            long startTime = System.currentTimeMillis();
+
+            if (connectionTimeout == null) {
+                localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+            } else {
+                Long aux = new Long(connectionTimeout);
+                if (aux < 0) {
+                    localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+                } else {
+                    localTimeout = aux;
+                }
+            }
+
+            if (socketTimeout == null) {
+                localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+            } else {
+                Long aux = new Long(socketTimeout);
+                if (aux < 0) {
+                    localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+                } else {
+                    localSocketTimeout = aux;
+                }
+            }
+
+            Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest.get(url.toString()).headers(localHeaders).asBinary();
 
-            setValues(url, jsonResponse, localHeaders);
+            long elapsedTime = System.currentTimeMillis() - startTime;
+
+            setValues(url, jsonResponse, localHeaders, elapsedTime);
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(jsonResponse.getRawBody()));
@@ -50,29 +81,69 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException | IOException e) {
+        } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (MalformedURLException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
         }
     }
 
 
     // HTTP POST request
-    public static void sendPost(String strURL, Object params, Object headers) {
+    public static void sendPost(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
+
+            Long localTimeout;
+            Long localSocketTimeout;
 
             localParams = parser(params);
             localHeaders = parser(headers);
 
             URL url = new URL(strURL);
 
-            Test.syntaxTest(url);
+            Test.checkURL(url);
+
+            long startTime = System.currentTimeMillis();
+
+            if (connectionTimeout == null) {
+                localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+            } else {
+                Long aux = new Long(connectionTimeout);
+                if (aux < 0) {
+                    localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+                } else {
+                    localTimeout = aux;
+                }
+            }
+
+            if (socketTimeout == null) {
+                localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+            } else {
+                Long aux = new Long(socketTimeout);
+                if (aux < 0) {
+                    localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+                } else {
+                    localSocketTimeout = aux;
+                }
+            }
+
+            Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest
                     .post(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
                     .queryString(new HashMap<String, Object>(localParams)).asBinary();
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
 
             InputStream is = jsonResponse.getRawBody();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -82,7 +153,7 @@ public class RequestAnswer {
                 response.append(line);
                 response.append('\r');
             }
-            setValues(url, jsonResponse, localHeaders);
+            setValues(url, jsonResponse, localHeaders, elapsedTime);
             in.close();
 
 
@@ -91,28 +162,69 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException | IOException e) {
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (MalformedURLException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
     // HTTP PUT request
-    public static void sendPut(String strURL, Object params, Object headers) {
+    public static void sendPut(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
+
+            Long localTimeout;
+            Long localSocketTimeout;
 
             localParams = parser(params);
             localHeaders = parser(headers);
 
             URL url = new URL(strURL);
 
-            Test.syntaxTest(url);
+            Test.checkURL(url);
+
+            long startTime = System.currentTimeMillis();
+
+            if (connectionTimeout == null) {
+                localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+            } else {
+                Long aux = new Long(connectionTimeout);
+                if (aux < 0) {
+                    localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+                } else {
+                    localTimeout = aux;
+                }
+            }
+
+            if (socketTimeout == null) {
+                localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+            } else {
+                Long aux = new Long(socketTimeout);
+                if (aux < 0) {
+                    localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+                } else {
+                    localSocketTimeout = aux;
+                }
+            }
+
+            Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest
                     .put(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
                     .queryString(new HashMap<String, Object>(localParams)).asBinary();
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
 
             InputStream is = jsonResponse.getRawBody();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -122,7 +234,7 @@ public class RequestAnswer {
                 response.append(line);
                 response.append('\r');
             }
-            setValues(url, jsonResponse, localHeaders);
+            setValues(url, jsonResponse, localHeaders, elapsedTime);
             in.close();
 
 
@@ -131,28 +243,68 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException | IOException e) {
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            RequestController.exceptionMessages.put("connection", "This seems to be like an error connecting to ");
+        } catch (MalformedURLException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
     //HTTP DELETE request
-    public static void sendDelete(String strURL, Object params, Object headers) {
+    public static void sendDelete(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
+
+            Long localTimeout;
+            Long localSocketTimeout;
 
             localParams = parser(params);
             localHeaders = parser(headers);
 
             URL url = new URL(strURL);
 
-            Test.syntaxTest(url);
+            Test.checkURL(url);
+
+            long startTime = System.currentTimeMillis();
+
+            if (connectionTimeout == null) {
+                localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+            } else {
+                Long aux = new Long(connectionTimeout);
+                if (aux < 0) {
+                    localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
+                } else {
+                    localTimeout = aux;
+                }
+            }
+
+            if (socketTimeout == null) {
+                localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+            } else {
+                Long aux = new Long(socketTimeout);
+                if (aux < 0) {
+                    localSocketTimeout = RequestAnswer.SOCKET_TIMEOUT;
+                } else {
+                    localSocketTimeout = aux;
+                }
+            }
+
+            Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest
                     .delete(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
                     .queryString(new HashMap<String, Object>(localParams)).asBinary();
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
 
             InputStream is = jsonResponse.getRawBody();
             BufferedReader in = new BufferedReader(new InputStreamReader(is));
@@ -162,7 +314,7 @@ public class RequestAnswer {
                 response.append(line);
                 response.append('\r');
             }
-            setValues(url, jsonResponse, localHeaders);
+            setValues(url, jsonResponse, localHeaders, elapsedTime);
             in.close();
 
 
@@ -171,12 +323,24 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException | IOException e) {
+        } catch (UnirestException e) {
+            e.printStackTrace();
+            RequestController.exceptionMessages.put("connection", "This seems to be like an error connecting to ");
+        } catch (MalformedURLException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
     }
 
-    private static void setValues(URL url, HttpResponse<InputStream> jsonResponse, AbstractMap<String, String> localHeaders) throws IOException {
+    private static void setValues(URL url, HttpResponse<InputStream> jsonResponse,
+                                  AbstractMap<String, String> localHeaders, Long responseTime) {
         generalInfo = new HashMap<>();
 
         int responseCode = jsonResponse.getStatus();
@@ -195,6 +359,7 @@ public class RequestAnswer {
         RequestController.responseValues.setRequestHeaders(localHeaders);
         RequestController.responseValues.setResponseHeaders(jsonResponse.getHeaders());
         RequestController.responseValues.setGeneralInfo(generalInfo);
+        RequestController.responseValues.setResponseTime(responseTime);
         RequestController.responseValues.setResponseCode(Integer.toString(responseCode) + " " + jsonResponse.getStatusText());
     }
 
@@ -232,7 +397,7 @@ public class RequestAnswer {
 
     private static AbstractMap<String, String> parser(Object params) {
         AbstractMap<String, String> localParams = new HashMap<>();
-        if (params != " ") {
+        if (params != "") {
             JSONObject json = new JSONObject(params.toString());
             Iterator<String> iter = json.keys();
             while (iter.hasNext()) {

@@ -14,9 +14,10 @@ public class HomeController {
 
     private static final Logger log = Logger.getLogger(HomeController.class);
 
-    public ModelAndView getView(){
-    	return new ModelAndView("home");
+    public ModelAndView getView() {
+        return new ModelAndView("home");
     }
+
     /**
      * Simply selects the home view to render by returning its name.
      */
@@ -24,7 +25,7 @@ public class HomeController {
     public ModelAndView home() {
 
         ModelAndView model = getView();
-
+        model.addObject("firstChecked", true);
         return model;
     }
 }

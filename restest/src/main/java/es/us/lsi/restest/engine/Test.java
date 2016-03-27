@@ -1,10 +1,16 @@
 package es.us.lsi.restest.engine;
 
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class Test {
     public static HashMap<String, Map<String, Boolean>> resultMap = new HashMap<>();
@@ -38,7 +44,35 @@ public class Test {
      * @return true si la @uri tiene palabras camelCase
      */
     private static boolean testCamelCase(String param) {
-        return param.matches("[a-zA-Z]+");
+        boolean res = false;
+        if (!param.isEmpty()) {
+            if (Character.isLowerCase(param.charAt(0)) && !StringUtils.isAllUpperCase(param)) {
+                for (int i = 1; i <= param.length() - 1; i++) {
+                    if (Character.isUpperCase(param.charAt(i)))
+                        res = true;
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Comprueba que la uri contiene palabras con la forma PascalCase
+     *
+     * @param param
+     * @return true si la @uri tiene palabras PascalCase
+     */
+    private static boolean testPascalCase(String param) {
+        boolean res = false;
+        if (!param.isEmpty()) {
+            if (Character.isUpperCase(param.charAt(0)) && !StringUtils.isAllUpperCase(param)) {
+                for (int i = 1; i <= param.length() - 1; i++) {
+                    if (Character.isUpperCase(param.charAt(i)))
+                        res = true;
+                }
+            }
+        }
+        return res;
     }
 
     /**
@@ -62,11 +96,11 @@ public class Test {
      * @return true si @uri es un número
      */
     private static boolean testFullNumber(String param) {
-        return param.matches("(\\d+(.\\d+)?)");
+        return param.matches("(\\d+.\\d+?)|(\\d+)");
     }
 
     private static boolean testAlphanumeric(String param) {
-        return param.matches("^\\w+$");
+        return StringUtils.isAlphanumeric(param);
     }
 
     /**
@@ -89,26 +123,79 @@ public class Test {
         System.out.println(value + " ->" + " test fullNumber: " + testFullNumber(value));
         System.out.println(value + " ->" + " test hyphen: " + testHyphen(value));
         System.out.println(value + " ->" + " test camelCase: " + testCamelCase(value));
+        System.out.println(value + " ->" + " test PascalCase: " + testPascalCase(value));
         System.out.println(value + " ->" + " test Snake_case: " + testSnakeCase(value));
         System.out.println(value + " ->" + " test Alphanumeric: " + testAlphanumeric(value));
     }
 
-    private static void setTestToResult(String string) {
-        testValor.put("fullNumber", testFullNumber(string));
-        testValor.put("hyphen", testHyphen(string));
-        testValor.put("camelCase", testCamelCase(string));
-        testValor.put("Snake_case", testSnakeCase(string));
-        testValor.put("Alphanumeric", testAlphanumeric(string));
+    private static Map<String, Boolean> setTestToResult(String string) {
+        Map<String, Boolean> valores = new HashMap<>();
+        valores.put("fullNumber", false);
+        valores.put("hyphen", false);
+        valores.put("camelCase", false);
+        valores.put("PascalCase", false);
+        valores.put("Snake_case", false);
+        valores.put("Alphanumeric", false);
+
+        valores.put("fullNumber", testFullNumber(string));
+        valores.put("hyphen", testHyphen(string));
+        valores.put("camelCase", testCamelCase(string));
+        valores.put("PascalCase", testPascalCase(string));
+        valores.put("Snake_case", testSnakeCase(string));
+        valores.put("Alphanumeric", testAlphanumeric(string));
+
+        return valores;
     }
 
+    private static void resetMap(Map<String, Boolean> valores) {
+        valores.put("fullNumber", false);
+        valores.put("hyphen", false);
+        valores.put("camelCase", false);
+        valores.put("PascalCase", false);
+        valores.put("Snake_case", false);
+        valores.put("Alphanumeric", false);
+    }
+
+    public static void checkURL(URL url) throws UnsupportedEncodingException {
+        resultMap = new HashMap<>();
+        testValor = new HashMap<>();
+
+        String path = url.getPath();
+        String fileName = url.getFile();
+        String query = url.getQuery();
+
+        String[] pathParts = path.split("/");
+        for (int i = 1; i <= pathParts.length - 1; i++) {
+            showResults(pathParts[i]);
+
+            resultMap.put(pathParts[i], new HashMap<>(setTestToResult(pathParts[i])));
+        }
+
+        String[] fileNameParts = fileName.split("/");
+        for (int i = 1; i <= fileNameParts.length - 1; i++) {
+            showResults(fileNameParts[i]);
+        }
+        if (query != null) {
+            String[] queryParts = query.split("&");
+            for (String pair : queryParts) {
+                int idx = pair.indexOf("=");
+                String part1 = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
+                String part2 = URLDecoder.decode(pair.substring(idx + 1), "UTF-8");
+
+                showResults(part1);
+                showResults(part2);
+
+                resultMap.put(part1, new HashMap<>(setTestToResult(part1)));
+
+                resultMap.put(part2, new HashMap<>(setTestToResult(part2)));
+            }
+        }
+    }
+/*
     public static void syntaxTest(URL url) {
         resultMap = new HashMap<>();
         testValor = new HashMap<>();
-        testValor.put("fullNumber", false);
-        testValor.put("hyphen", false);
-        testValor.put("camelCase", false);
-        testValor.put("Snake_case", false);
-        testValor.put("Alphanumeric", false);
+
         String urlToString = url.toString();
         //Parseamos la url usando /
         String[] parts = urlToString.split("/");
@@ -155,5 +242,5 @@ public class Test {
         return resultMap.get(string);
     }
 
-
+*/
 }

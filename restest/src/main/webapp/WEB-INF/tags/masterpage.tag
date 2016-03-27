@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@tag description="Overall Page template" pageEncoding="UTF-8"%>
+<%@tag description="Overall Page template" pageEncoding="UTF-8" %>
 <html>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<head>

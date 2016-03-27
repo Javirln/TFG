@@ -11,15 +11,21 @@ public class APIResponse {
     private Map<String, String> requestHeaders = new HashMap<>();
     private Map<String, String> generalInfo = new HashMap<>();
     private StringBuilder response = new StringBuilder();
+    private Long responseTime = 0L;
 
     public APIResponse() {
         super();
     }
 
-    public String getContentType() {
-        String res = null;
-        String[] parts = this.responseHeaders.get("Content-Type").get(0).split(";");
-        res = parts[0];
+    public int getContentType() throws Exception {
+        int res = -1;
+        try {
+            if (!getResponseHeaders().isEmpty()) {
+                res = getResponseHeaders().get("content-type").get(0).indexOf(';');
+            }
+        } catch (NullPointerException e) {
+            return res;
+        }
         return res;
     }
 
@@ -97,5 +103,13 @@ public class APIResponse {
         result = 31 * result + responseHeaders.hashCode();
         result = 31 * result + response.hashCode();
         return result;
+    }
+
+    public Long getResponseTime() {
+        return responseTime;
+    }
+
+    public void setResponseTime(Long responseTime) {
+        this.responseTime = responseTime;
     }
 }
