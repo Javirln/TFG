@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import es.us.lsi.restest.controllers.RequestController;
+import groovy.json.JsonException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ public class RequestAnswer {
     public static Map<String, String> generalInfo = new HashMap<>();
 
     // HTTP GET request
-    public static void sendGet(String strURL, Object headers, Integer connectionTimeout, Integer socketTimeout) {
+    public static void sendGet(String strURL, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localHeaders;
 
@@ -35,7 +36,7 @@ public class RequestAnswer {
 
             Test.checkURL(url);
 
-            long startTime = System.currentTimeMillis();
+
 
             if (connectionTimeout == null) {
                 localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
@@ -61,9 +62,12 @@ public class RequestAnswer {
 
             Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
+            long startTime = System.currentTimeMillis();
+
             HttpResponse<InputStream> jsonResponse = Unirest.get(url.toString()).headers(localHeaders).asBinary();
 
             long elapsedTime = System.currentTimeMillis() - startTime;
+
 
             setValues(url, jsonResponse, localHeaders, elapsedTime);
 
@@ -81,6 +85,8 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
+
+            Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
         } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
             RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
@@ -93,6 +99,8 @@ public class RequestAnswer {
             e.printStackTrace();
         } catch (IOException e) {
             RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (JsonException e) {
+            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
@@ -113,7 +121,6 @@ public class RequestAnswer {
 
             Test.checkURL(url);
 
-            long startTime = System.currentTimeMillis();
 
             if (connectionTimeout == null) {
                 localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
@@ -139,9 +146,11 @@ public class RequestAnswer {
 
             Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
+            long startTime = System.currentTimeMillis();
+
             HttpResponse<InputStream> jsonResponse = Unirest
                     .post(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
-                    .queryString(new HashMap<String, Object>(localParams)).asBinary();
+                    .fields(new HashMap<String, Object>(localParams)).asBinary();
 
             long elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -194,7 +203,6 @@ public class RequestAnswer {
 
             Test.checkURL(url);
 
-            long startTime = System.currentTimeMillis();
 
             if (connectionTimeout == null) {
                 localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
@@ -218,11 +226,13 @@ public class RequestAnswer {
                 }
             }
 
+            long startTime = System.currentTimeMillis();
+
             Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest
                     .put(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
-                    .queryString(new HashMap<String, Object>(localParams)).asBinary();
+                    .fields(new HashMap<String, Object>(localParams)).asBinary();
 
             long elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -274,7 +284,6 @@ public class RequestAnswer {
 
             Test.checkURL(url);
 
-            long startTime = System.currentTimeMillis();
 
             if (connectionTimeout == null) {
                 localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
@@ -297,12 +306,13 @@ public class RequestAnswer {
                     localSocketTimeout = aux;
                 }
             }
+            long startTime = System.currentTimeMillis();
 
             Unirest.setTimeouts(localTimeout, localSocketTimeout);
 
             HttpResponse<InputStream> jsonResponse = Unirest
                     .delete(url.toString()).headers(localHeaders).header("Content-Type", "application/x-www-form-urlencoded")
-                    .queryString(new HashMap<String, Object>(localParams)).asBinary();
+                    .fields(new HashMap<String, Object>(localParams)).asBinary();
 
             long elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -395,7 +405,7 @@ public class RequestAnswer {
         return result.toString();
     }
 
-    private static AbstractMap<String, String> parser(Object params) {
+    public static AbstractMap<String, String> parser(Object params) throws JSONException {
         AbstractMap<String, String> localParams = new HashMap<>();
         if (params != "") {
             JSONObject json = new JSONObject(params.toString());
@@ -406,7 +416,7 @@ public class RequestAnswer {
                     Object value = json.get(key);
                     localParams.put(key, value.toString());
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
                 }
             }
         }

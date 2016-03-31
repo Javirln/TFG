@@ -13,7 +13,8 @@ import java.util.regex.Pattern;
 
 
 public class Test {
-    public static HashMap<String, Map<String, Boolean>> resultMap = new HashMap<>();
+    public static HashMap<String, Map<String, Boolean>> resultMapQuery = new HashMap<>();
+    public static HashMap<String, Map<String, Boolean>> resultMapPath = new HashMap<>();
     private static Map<String, Boolean> testValor = new HashMap<>();
 
 
@@ -157,7 +158,8 @@ public class Test {
     }
 
     public static void checkURL(URL url) throws UnsupportedEncodingException {
-        resultMap = new HashMap<>();
+        resultMapQuery = new HashMap<>();
+        resultMapPath = new HashMap<>();
         testValor = new HashMap<>();
 
         String path = url.getPath();
@@ -168,7 +170,7 @@ public class Test {
         for (int i = 1; i <= pathParts.length - 1; i++) {
             showResults(pathParts[i]);
 
-            resultMap.put(pathParts[i], new HashMap<>(setTestToResult(pathParts[i])));
+            resultMapPath.put(pathParts[i], new HashMap<>(setTestToResult(pathParts[i])));
         }
 
         String[] fileNameParts = fileName.split("/");
@@ -185,62 +187,10 @@ public class Test {
                 showResults(part1);
                 showResults(part2);
 
-                resultMap.put(part1, new HashMap<>(setTestToResult(part1)));
+                resultMapQuery.put(part1, new HashMap<>(setTestToResult(part1)));
 
-                resultMap.put(part2, new HashMap<>(setTestToResult(part2)));
+                resultMapQuery.put(part2, new HashMap<>(setTestToResult(part2)));
             }
         }
     }
-/*
-    public static void syntaxTest(URL url) {
-        resultMap = new HashMap<>();
-        testValor = new HashMap<>();
-
-        String urlToString = url.toString();
-        //Parseamos la url usando /
-        String[] parts = urlToString.split("/");
-        for (int i = 0; i <= parts.length - 1; i++) {
-            //Comprobamos que la parte en la que estamos no pertenece a la parte de la query
-            if (parts[i].contains("&") || parts[i].contains("?")) {
-                Map<String, String> queryDic = new HashMap<>();
-                String queryParams = parts[i];
-                String[] queryParts = queryParams.split("&");
-                System.out.println("---Query part---");
-                for (int j = 0; j <= queryParts.length - 1; j++) {
-                    String[] paramsToMap = queryParts[j].split("=");
-                    //Desechamos la parte izquierda del ?
-                    if (paramsToMap[0].contains("?")) {
-                        String[] aux = paramsToMap[0].split("\\?");
-                        //La siguiente linea es para coger lo que esta a la izquierda de ?
-                        queryDic.put(aux[0], paramsToMap[1]);
-                        queryDic.put(aux[1], paramsToMap[1]);
-                        continue;
-                    }
-                    queryDic.put(paramsToMap[0], paramsToMap[1]);
-                }
-                for (Map.Entry<String, String> entry : queryDic.entrySet()) {
-                    System.out.println(entry.getKey() + " ==> " + entry.getValue());
-                    setTestToResult(entry.getKey());
-                    resultMap.put(entry.getKey(), testValor);
-
-                    showResults(entry.getKey());
-                }
-                continue;
-            }
-            setTestToResult(parts[i]);
-            resultMap.put(parts[i], testValor);
-
-            showResults(parts[i]);
-        }
-        testValor = new HashMap<>();
-        testValor.put("TrailingSlah", new Boolean(testTrailingForwardSlash(urlToString)));
-        resultMap.put(urlToString, testValor);
-        System.out.println(urlToString + " ->" + " test TrailingSlash: " + testTrailingForwardSlash(urlToString));
-    }
-
-    public static Map<String, Boolean> testResultsByKey(String string) {
-        return resultMap.get(string);
-    }
-
-*/
 }

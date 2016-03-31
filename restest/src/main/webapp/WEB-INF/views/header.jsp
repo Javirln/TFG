@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css" href="assets/css/codemirror.css">
 <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
 <link rel="stylesheet" type="text/css" href="assets/js/addon/lint/lint.css">
+<link rel="stylesheet" type="text/css" href="assets/css/megerly.css">
 
 <!-- Javascript -->
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -52,6 +53,7 @@
 <script type="text/javascript" src="assets/js/addon/edit/closebrackets.js"></script>
 <script type="text/javascript" src="assets/js/autorefresh.js"></script>
 <script type="text/javascript" src="assets/js/jquery.validate.js"></script>
+<script type="text/javascript" src="assets/js/mergely.js"></script>
 
 
 

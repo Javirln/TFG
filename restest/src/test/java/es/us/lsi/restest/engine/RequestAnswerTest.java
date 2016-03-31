@@ -16,7 +16,7 @@ public class RequestAnswerTest {
 
     @org.junit.Test
     public void responseTime() {
-        when().get(url).then().time(lessThan(2000L));
+        when().get(url).then().time(lessThan(2000L)); // Milliseconds
     }
 
     @org.junit.Test

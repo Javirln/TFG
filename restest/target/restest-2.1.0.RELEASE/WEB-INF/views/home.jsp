@@ -48,7 +48,6 @@
                                                                   method="post">
                                                                 <div class="form-group">
                                                                     <div class="sub-title">URL:</div>
-                                                                    <label id="forURL" for="urlField" class="panel-danger"></label>
                                                                     <input id="urlField"
                                                                            class="text form-control <c:if test="${not empty errorMessages.get('url')}">panel-danger</c:if> "
                                                                            type="url" name="url"
@@ -56,51 +55,54 @@
                                                                            required/>
                                                                     <input type="hidden" name="${_csrf.parameterName}"
                                                                            value="${_csrf.token}"/>
-                                                                    <div>
-                                                                        <div class="sub-title">Method</div>
-                                                                        <div class="radio3 radio-check radio-inline">
-                                                                            <input type="radio" id="radio1"
-                                                                                   name="method"
-                                                                                   value="optionGET"
-                                                                            <c:choose>
-                                                                            <c:when test="${firstChecked}">
-                                                                                   checked
-                                                                            </c:when>
-                                                                            <c:when test="${method == 'optionGET'}">
-                                                                                   checked
-                                                                            </c:when>
-                                                                            </c:choose>>
-                                                                            <label for="radio1">
-                                                                                GET
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="radio3 radio-check radio-inline">
-                                                                            <input type="radio" id="radio2"
-                                                                                   name="method" value="optionPOST"
-                                                                                   <c:if test="${method == 'optionPOST'}">checked</c:if>>
-                                                                            <label for="radio2">
-                                                                                POST
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="radio3 radio-check radio-inline">
-                                                                            <input type="radio" id="radio3"
-                                                                                   name="method" value="optionPUT"
-                                                                                   <c:if test="${method == 'optionPUT'}">checked</c:if>>
-                                                                            <label for="radio3">
-                                                                                PUT
-                                                                            </label>
-                                                                        </div>
-                                                                        <div class="radio3 radio-check radio-inline">
-                                                                            <input type="radio" id="radio4"
-                                                                                   name="method" value="optionDELETE">
-                                                                            <label for="radio4"
-                                                                                   <c:if test="${method == 'optionDELETE'}">checked</c:if>>
-                                                                                DELETE
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
                                                                     <div class="row">
                                                                         <div class="col-lg-4 col-md-4">
+                                                                            <div>
+                                                                                <div class="sub-title">Method</div>
+                                                                                <div class="radio3 radio-check radio-inline">
+                                                                                    <input type="radio" id="radio1"
+                                                                                           name="method"
+                                                                                           value="optionGET"
+                                                                                    <c:choose>
+                                                                                    <c:when test="${firstChecked}">
+                                                                                           checked
+                                                                                    </c:when>
+                                                                                    <c:when test="${method == 'optionGET'}">
+                                                                                           checked
+                                                                                    </c:when>
+                                                                                    </c:choose>>
+                                                                                    <label for="radio1">
+                                                                                        GET
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="radio3 radio-check radio-inline">
+                                                                                    <input type="radio" id="radio2"
+                                                                                           name="method"
+                                                                                           value="optionPOST"
+                                                                                           <c:if test="${method == 'optionPOST'}">checked</c:if>>
+                                                                                    <label for="radio2">
+                                                                                        POST
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="radio3 radio-check radio-inline">
+                                                                                    <input type="radio" id="radio3"
+                                                                                           name="method"
+                                                                                           value="optionPUT"
+                                                                                           <c:if test="${method == 'optionPUT'}">checked</c:if>>
+                                                                                    <label for="radio3">
+                                                                                        PUT
+                                                                                    </label>
+                                                                                </div>
+                                                                                <div class="radio3 radio-check radio-inline">
+                                                                                    <input type="radio" id="radio4"
+                                                                                           name="method"
+                                                                                           value="optionDELETE">
+                                                                                    <label for="radio4"
+                                                                                           <c:if test="${method == 'optionDELETE'}">checked</c:if>>
+                                                                                        DELETE
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
                                                                             <div class="sub-title">Timeout</div>
                                                                             <label for="connectionTimeout">Connection
                                                                                 timeout (ms)</label> <i
@@ -113,7 +115,7 @@
                                                                                 empty input - disable timeout
                                                                             </small>
                                                                             <input id="connectionTimeout"
-                                                                                   class="text form-control <c:if test="${not empty errorMessages.get('url')}">panel-danger</c:if> "
+                                                                                   class="text form-control "
                                                                                    type="number"
                                                                                    name="connectionTimeout"
                                                                                    aria-required="true"
@@ -132,12 +134,17 @@
                                                                                 empty input - disable timeout
                                                                             </small>
                                                                             <input id="socketTimeout"
-                                                                                   class="text form-control <c:if test="${not empty errorMessages.get('url')}">panel-danger</c:if> "
+                                                                                   class="text form-control"
                                                                                    type="number" name="socketTimeout"
                                                                                    aria-required="true"
                                                                                    value="${socketTimeout}"
                                                                                    min="0"/>
-
+                                                                        </div>
+                                                                        <div class="col-lg-6 col-md-6">
+                                                                            <div class="sub-title">Test to perform</div>
+                                                                            <textarea id="testToPerform"
+                                                                                      name="testsToPerform"><c:out
+                                                                                    value="${testsToPerform}"></c:out></textarea>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -159,11 +166,11 @@
                                                                                         value="${headers}"></c:out></textarea>
                                                                         </div>
                                                                     </div>
+                                                                    <input id="submit"
+                                                                           class="btn btn-success pull-right"
+                                                                           type="submit"
+                                                                           value="Submit">
                                                                 </div>
-                                                                <input id="submit"
-                                                                       class="btn btn-success pull-right"
-                                                                       type="submit"
-                                                                       value="Submit">
                                                             </form>
                                                         </div>
                                                     </div>
@@ -191,7 +198,7 @@
                                                         <div class="card">
                                                             <div class="card-body">
                                                                 <div class="row">
-                                                                    <div class="col-lg-12 col-md-12">
+                                                                    <div class="col-lg-9 col-md-9">
                                                                         <div class="card">
                                                                             <div class="card-header">
                                                                                 <div class="card-title">
@@ -243,9 +250,60 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="col-lg-3 col-md-3">
+                                                                        <div class="card">
+                                                                            <div class="card-header">
+                                                                                <div class="card-title">
+                                                                                    <div class="title">Test</div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="card-body no-padding">
+                                                                                <c:forEach
+                                                                                        items="${resultAssertions}"
+                                                                                        var="entry">
+                                                                                    <ul>
+                                                                                        <li>
+                                                                                            <b><c:out
+                                                                                                    value="${entry.key}:"/></b>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${entry.value == true}">
+                                                                                                <span class="fresh-color alert-success"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                                </c:when>
+                                                                                                <c:otherwise>
+                                                                                                <span class="fresh-color alert-danger"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                                </c:otherwise>
+                                                                                            </c:choose>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </c:forEach>
+                                                                                <c:forEach
+                                                                                        items="${resultAssertionsHeaders}"
+                                                                                        var="entry">
+                                                                                    <ul>
+                                                                                        <li>
+                                                                                            <b><c:out
+                                                                                                    value="${entry.key}:"/></b>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${entry.value == true}">
+                                                                                                <span class="fresh-color alert-success"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                                </c:when>
+                                                                                                <c:otherwise>
+                                                                                                <span class="fresh-color alert-danger"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                                </c:otherwise>
+                                                                                            </c:choose>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </c:forEach>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-lg-12 col-md-12">
+                                                                    <div class="col-lg-7 col-md-7">
                                                                         <div class="card">
                                                                             <div class="card-header">
                                                                                 <div class="card-title">
@@ -359,8 +417,9 @@
                                                     <div class="col-lg-12">
                                                         <div class="card">
                                                             <div class="card-body">
-                                                                <div class="text-center"><h2 id="urlTest"><c:out
-                                                                        value="${url}"></c:out></h2></div>
+                                                                <div class="text-center"><span id="urlTest"><c:out
+                                                                        value="${url}"></c:out></span>
+                                                                </div>
                                                                 <ul>
                                                                     <c:forEach items="${test}" var="entry">
                                                                         <li>${entry.key}</li>
@@ -373,6 +432,78 @@
                                                                         </ul>
                                                                     </c:forEach>
                                                                 </ul>
+                                                                <!-- EMPIEZA EL TEST -->
+                                                                <div class="panel-group" id="accordion" role="tablist"
+                                                                     aria-multiselectable="true">
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading" role="tab"
+                                                                             id="headingOne">
+                                                                            <h4 class="panel-title">
+                                                                                <a role="button" data-toggle="collapse"
+                                                                                   data-parent="#accordion"
+                                                                                   href="#collapseOne"
+                                                                                   aria-expanded="true"
+                                                                                   aria-controls="collapseOne">
+                                                                                    Path
+                                                                                </a>
+                                                                            </h4>
+                                                                        </div>
+                                                                        <div id="collapseOne"
+                                                                             class="panel-collapse collapse in"
+                                                                             role="tabpanel"
+                                                                             aria-labelledby="headingOne">
+                                                                            <div class="panel-body">
+                                                                                <c:forEach items="${testPath}"
+                                                                                           var="entry">
+                                                                                    <li>${entry.key}</li>
+                                                                                    <ul>
+                                                                                        <c:forEach
+                                                                                                items="${entry.value}"
+                                                                                                var="child">
+                                                                                            <li>${child.key}
+                                                                                                => ${child.value} </li>
+                                                                                        </c:forEach>
+                                                                                    </ul>
+                                                                                </c:forEach>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading" role="tab"
+                                                                             id="headingTwo">
+                                                                            <h4 class="panel-title">
+                                                                                <a class="collapsed" role="button"
+                                                                                   data-toggle="collapse"
+                                                                                   data-parent="#accordion"
+                                                                                   href="#collapseTwo"
+                                                                                   aria-expanded="false"
+                                                                                   aria-controls="collapseTwo">
+                                                                                    Query
+                                                                                </a>
+                                                                            </h4>
+                                                                        </div>
+                                                                        <div id="collapseTwo"
+                                                                             class="panel-collapse collapse"
+                                                                             role="tabpanel"
+                                                                             aria-labelledby="headingTwo">
+                                                                            <div class="panel-body">
+                                                                                <c:forEach items="${testQuery}"
+                                                                                           var="entry">
+                                                                                    <li>${entry.key}</li>
+                                                                                    <ul>
+                                                                                        <c:forEach
+                                                                                                items="${entry.value}"
+                                                                                                var="child">
+                                                                                            <li>${child.key}
+                                                                                                => ${child.value} </li>
+                                                                                        </c:forEach>
+                                                                                    </ul>
+                                                                                </c:forEach>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- TERMINA EL TEST -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -394,17 +525,27 @@
                                         <h4 class="modal-title" id="myModalLabel">Connection error</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <h2>Could not get any response</h2>
-                                        <c:out value="${errorMessages.get('con')}"></c:out> <a
-                                            href="<c:out value="${url}"></c:out>" style="color: #2e6da4"><c:out
-                                            value="${url}"></c:out></a>
-                                        <br>
-                                        Try the following suggestions:
-                                        <ul>
-                                            <li>Check if the backend is running.</li>
-                                            <li>Check the URL it might be misspelled.</li>
-                                            <li>Try changing the timeout.</li>
-                                        </ul>
+                                        <c:choose>
+                                            <c:when test="${errorMessages.get('con')}">
+                                                <h2>Could not get any response</h2>
+                                                <c:out value="${errorMessages.get('con')}"></c:out> <a
+                                                    href="<c:out value="${url}"></c:out>" style="color: #2e6da4"><c:out
+                                                    value="${url}"></c:out></a>
+                                                <br>
+                                                Try the following suggestions:
+                                                <ul>
+                                                    <li>Check if the backend is running.</li>
+                                                    <li>Check the URL it might be misspelled.</li>
+                                                    <li>Try changing the timeout.</li>
+                                                </ul>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h2>Parser error</h2>
+                                                <c:out value="${errorMessages.get('parser')}"></c:out>
+                                                <br>
+                                                Try checking all the parameters are JSON style format.
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close
@@ -420,9 +561,17 @@
         </div>
         <script>
             "use strict";
-            <c:if test="${not empty errorMessages.get('con')}">
+            <c:if test="${not empty errorMessages.get('con') or not empty errorMessages.get('parser')}">
             $('#modalConnection').modal('show');
             </c:if>
+
+            var testMirror = CodeMirror.fromTextArea(document.getElementById("testToPerform"), {
+                lineNumbers: true,
+                mode: "application/json",
+                autoCloseBrackets: true,
+                gutters: ["CodeMirror-lint-markers"],
+                lint: true
+            });
 
             var paramsMirror = CodeMirror.fromTextArea(document.getElementById("params"), {
                 lineNumbers: true,
