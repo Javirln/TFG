@@ -3,10 +3,12 @@ package es.us.lsi.restest.engine;
 import com.mashape.unirest.http.HttpResponse;
 import es.us.lsi.restest.controllers.RequestController;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -55,11 +57,8 @@ public class Assertions {
     }
 
     private static Boolean compareBody(String toTest, StringBuilder response) {
-        String fromResponse = new String(response);
-        String[] auz = toTest.substring(1, toTest.length() - 1).split(":");
-        String dw = auz[0] + ": " + auz[1];
-        Boolean res = fromResponse.matches(toTest);
-        return res;
+        Map<String, String> extendedMap = parserExtended(toTest);
+        return true;
     }
 
     /**
@@ -101,4 +100,25 @@ public class Assertions {
         return test.equalsIgnoreCase(Integer.toString(jsonResponse.getStatus()));
     }
 
+    private static AbstractMap<String, String> parserExtended(Object params) throws JSONException {
+        AbstractMap<String, String> localParams = new HashMap<>();
+        if (params != "") {
+            JSONObject json = new JSONObject(params.toString());
+            Iterator<String> iter = json.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                try {
+                    Object value = json.get(key);
+                    if (value.toString().startsWith("{")) {
+                        parserExtended(value.toString());
+                    }
+                    localParams.put(key, value.toString());
+                } catch (JSONException e) {
+                    RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+                }
+
+            }
+        }
+        return localParams;
+    }
 }

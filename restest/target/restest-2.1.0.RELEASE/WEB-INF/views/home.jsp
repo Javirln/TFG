@@ -453,15 +453,22 @@
                                                                              role="tabpanel"
                                                                              aria-labelledby="headingOne">
                                                                             <div class="panel-body">
-                                                                                <c:forEach items="${testPath}"
-                                                                                           var="entry">
+                                                                                <c:forEach items="${testPath}" var="entry">
                                                                                     <li>${entry.key}</li>
                                                                                     <ul>
                                                                                         <c:forEach
                                                                                                 items="${entry.value}"
                                                                                                 var="child">
-                                                                                            <li>${child.key}
-                                                                                                => ${child.value} </li>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${child.value == true}">
+                                                                                                <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-success"><c:out value="${child.value}"/></span>
+                                                                                                </li>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-danger"><c:out value="${child.value}"/></span>
+                                                                                                </li>
+                                                                                            </c:otherwise>
+                                                                                        </c:choose>
                                                                                         </c:forEach>
                                                                                     </ul>
                                                                                 </c:forEach>
@@ -487,15 +494,22 @@
                                                                              role="tabpanel"
                                                                              aria-labelledby="headingTwo">
                                                                             <div class="panel-body">
-                                                                                <c:forEach items="${testQuery}"
-                                                                                           var="entry">
+                                                                                <c:forEach items="${testQuery}" var="entry">
                                                                                     <li>${entry.key}</li>
                                                                                     <ul>
                                                                                         <c:forEach
                                                                                                 items="${entry.value}"
                                                                                                 var="child">
-                                                                                            <li>${child.key}
-                                                                                                => ${child.value} </li>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${child.value == true}">
+                                                                                                    <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-success"><c:out value="${child.value}"/></span>
+                                                                                                    </li>
+                                                                                                </c:when>
+                                                                                                <c:otherwise>
+                                                                                                    <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-danger"><c:out value="${child.value}"/></span>
+                                                                                                    </li>
+                                                                                                </c:otherwise>
+                                                                                            </c:choose>
                                                                                         </c:forEach>
                                                                                     </ul>
                                                                                 </c:forEach>
@@ -526,7 +540,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <c:choose>
-                                            <c:when test="${errorMessages.get('con')}">
+                                            <c:when test="${not empty errorMessages.get('con')}">
                                                 <h2>Could not get any response</h2>
                                                 <c:out value="${errorMessages.get('con')}"></c:out> <a
                                                     href="<c:out value="${url}"></c:out>" style="color: #2e6da4"><c:out
