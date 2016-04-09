@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import es.us.lsi.restest.controllers.RequestController;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.AbstractMap;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-
+@Service
 public class Assertions {
     public static AbstractMap<String, Boolean> resultAssertions = new HashMap<>();
     public static AbstractMap<String, Boolean> resultAssertionsHeaders = new HashMap<>();

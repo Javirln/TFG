@@ -2,6 +2,7 @@ package es.us.lsi.restest.engine;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -11,8 +12,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class Test {
+@Service
+public class SemanticAnalysis {
     public static HashMap<String, Map<String, Boolean>> resultMapQuery = new HashMap<>();
     public static HashMap<String, Map<String, Boolean>> resultMapPath = new HashMap<>();
     private static Map<String, Boolean> testValor = new HashMap<>();

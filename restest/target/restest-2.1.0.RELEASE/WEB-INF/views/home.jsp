@@ -453,22 +453,29 @@
                                                                              role="tabpanel"
                                                                              aria-labelledby="headingOne">
                                                                             <div class="panel-body">
-                                                                                <c:forEach items="${testPath}" var="entry">
+                                                                                <c:forEach items="${testPath}"
+                                                                                           var="entry">
                                                                                     <li>${entry.key}</li>
                                                                                     <ul>
                                                                                         <c:forEach
                                                                                                 items="${entry.value}"
                                                                                                 var="child">
-                                                                                        <c:choose>
-                                                                                            <c:when test="${child.value == true}">
-                                                                                                <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-success"><c:out value="${child.value}"/></span>
-                                                                                                </li>
-                                                                                            </c:when>
-                                                                                            <c:otherwise>
-                                                                                                <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-danger"><c:out value="${child.value}"/></span>
-                                                                                                </li>
-                                                                                            </c:otherwise>
-                                                                                        </c:choose>
+                                                                                            <c:choose>
+                                                                                                <c:when test="${child.value == true}">
+                                                                                                    <li><span><c:out
+                                                                                                            value="${child.key}: "></c:out></span><span
+                                                                                                            class="fresh-color alert-success"><c:out
+                                                                                                            value="${child.value}"/></span>
+                                                                                                    </li>
+                                                                                                </c:when>
+                                                                                                <c:otherwise>
+                                                                                                    <li><span><c:out
+                                                                                                            value="${child.key}: "></c:out></span><span
+                                                                                                            class="fresh-color alert-danger"><c:out
+                                                                                                            value="${child.value}"/></span>
+                                                                                                    </li>
+                                                                                                </c:otherwise>
+                                                                                            </c:choose>
                                                                                         </c:forEach>
                                                                                     </ul>
                                                                                 </c:forEach>
@@ -494,7 +501,8 @@
                                                                              role="tabpanel"
                                                                              aria-labelledby="headingTwo">
                                                                             <div class="panel-body">
-                                                                                <c:forEach items="${testQuery}" var="entry">
+                                                                                <c:forEach items="${testQuery}"
+                                                                                           var="entry">
                                                                                     <li>${entry.key}</li>
                                                                                     <ul>
                                                                                         <c:forEach
@@ -502,11 +510,17 @@
                                                                                                 var="child">
                                                                                             <c:choose>
                                                                                                 <c:when test="${child.value == true}">
-                                                                                                    <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-success"><c:out value="${child.value}"/></span>
+                                                                                                    <li><span><c:out
+                                                                                                            value="${child.key}: "></c:out></span><span
+                                                                                                            class="fresh-color alert-success"><c:out
+                                                                                                            value="${child.value}"/></span>
                                                                                                     </li>
                                                                                                 </c:when>
                                                                                                 <c:otherwise>
-                                                                                                    <li><span><c:out value="${child.key}: "></c:out></span><span class="fresh-color alert-danger"><c:out value="${child.value}"/></span>
+                                                                                                    <li><span><c:out
+                                                                                                            value="${child.key}: "></c:out></span><span
+                                                                                                            class="fresh-color alert-danger"><c:out
+                                                                                                            value="${child.value}"/></span>
                                                                                                     </li>
                                                                                                 </c:otherwise>
                                                                                             </c:choose>

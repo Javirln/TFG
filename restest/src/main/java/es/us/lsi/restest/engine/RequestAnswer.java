@@ -8,6 +8,7 @@ import es.us.lsi.restest.controllers.RequestController;
 import groovy.json.JsonException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.*;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+@Service
 public class RequestAnswer {
 
     private static final Long CONNECTION_TIMEOUT = 10000L;
@@ -34,7 +36,7 @@ public class RequestAnswer {
 
             URL url = new URL(strURL);
 
-            Test.checkURL(url);
+            SemanticAnalysis.checkURL(url);
 
 
 
@@ -106,7 +108,7 @@ public class RequestAnswer {
 
 
     // HTTP POST request
-    public static void sendPost(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
+    public static void sendPost(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
@@ -119,7 +121,7 @@ public class RequestAnswer {
 
             URL url = new URL(strURL);
 
-            Test.checkURL(url);
+            SemanticAnalysis.checkURL(url);
 
 
             if (connectionTimeout == null) {
@@ -171,7 +173,8 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException e) {
+            Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
+        } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
             RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
@@ -179,16 +182,17 @@ public class RequestAnswer {
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             RequestController.exceptionMessages.put("url", "The URL is not well formed.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (JsonException e) {
+            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
     // HTTP PUT request
-    public static void sendPut(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
+    public static void sendPut(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
@@ -201,7 +205,7 @@ public class RequestAnswer {
 
             URL url = new URL(strURL);
 
-            Test.checkURL(url);
+            SemanticAnalysis.checkURL(url);
 
 
             if (connectionTimeout == null) {
@@ -253,23 +257,26 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException e) {
+            Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
+        } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("connection", "This seems to be like an error connecting to ");
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
             RequestController.exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             RequestController.exceptionMessages.put("url", "The URL is not well formed.");
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (JsonException e) {
+            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
     //HTTP DELETE request
-    public static void sendDelete(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout) {
+    public static void sendDelete(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localParams;
             AbstractMap<String, String> localHeaders;
@@ -282,7 +289,7 @@ public class RequestAnswer {
 
             URL url = new URL(strURL);
 
-            Test.checkURL(url);
+            SemanticAnalysis.checkURL(url);
 
 
             if (connectionTimeout == null) {
@@ -333,20 +340,22 @@ public class RequestAnswer {
             } else {
                 RequestController.responseValues.setResponse(new StringBuilder("No data"));
             }
-        } catch (UnirestException e) {
+            Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
+        } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("connection", "This seems to be like an error connecting to ");
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
             RequestController.exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             RequestController.exceptionMessages.put("url", "The URL is not well formed.");
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+        } catch (JsonException e) {
+            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
-
     }
 
     private static void setValues(URL url, HttpResponse<InputStream> jsonResponse,

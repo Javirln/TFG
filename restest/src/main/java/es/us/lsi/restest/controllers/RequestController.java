@@ -3,7 +3,7 @@ package es.us.lsi.restest.controllers;
 import es.us.lsi.restest.domain.APIResponse;
 import es.us.lsi.restest.engine.Assertions;
 import es.us.lsi.restest.engine.RequestAnswer;
-import es.us.lsi.restest.engine.Test;
+import es.us.lsi.restest.engine.SemanticAnalysis;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,13 +42,13 @@ public class RequestController {
                 RequestAnswer.sendGet(url, headers, connectionTimeout, socketTimeout, testsToPerform);
                 break;
             case "optionPOST":
-                RequestAnswer.sendPost(url, params, headers, connectionTimeout, socketTimeout);
+                RequestAnswer.sendPost(url, params, headers, connectionTimeout, socketTimeout, testsToPerform);
                 break;
             case "optionPUT":
-                RequestAnswer.sendPut(url, params, headers, connectionTimeout, socketTimeout);
+                RequestAnswer.sendPut(url, params, headers, connectionTimeout, socketTimeout, testsToPerform);
                 break;
             case "optionDELETE":
-                RequestAnswer.sendDelete(url, params, headers, connectionTimeout, socketTimeout);
+                RequestAnswer.sendDelete(url, params, headers, connectionTimeout, socketTimeout, testsToPerform);
                 break;
             default:
                 RequestAnswer.sendGet(url, headers, connectionTimeout, socketTimeout, testsToPerform);
@@ -65,8 +65,8 @@ public class RequestController {
         model.addObject("generalInfo", responseValues.getGeneralInfo());
         model.addObject("responseValues", responseValues);
         model.addObject("responseTime", responseValues.getResponseTime().toString() + " " + "ms");
-        model.addObject("testQuery", Test.resultMapQuery);
-        model.addObject("testPath", Test.resultMapPath);
+        model.addObject("testQuery", SemanticAnalysis.resultMapQuery);
+        model.addObject("testPath", SemanticAnalysis.resultMapPath);
         model.addObject("index", responseValues.getContentType());
         model.addObject("resultAssertions", Assertions.resultAssertions);
         model.addObject("resultAssertionsHeaders", Assertions.resultAssertionsHeaders);
