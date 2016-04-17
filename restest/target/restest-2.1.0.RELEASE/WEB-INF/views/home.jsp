@@ -193,213 +193,233 @@
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="results">
                                             <c:if test="${not empty responseValues and empty errorMessages}">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="card">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-lg-9 col-md-9">
-                                                                        <div class="card">
-                                                                            <div class="card-header">
-                                                                                <div class="card-title">
-                                                                                    <div class="title">Results <i
-                                                                                            class="fa fa-question-circle"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="right"
-                                                                                            title="By default, the response is formatted as JSON.">
-                                                                                    </i> &middot;
-                                                                                        <c:choose>
-                                                                                            <c:when test="${responseValues.getResponseCode().startsWith('1')}">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-9 col-md-9">
+                                                                    <div class="card">
+                                                                        <div class="card-header">
+                                                                            <div class="card-title">
+                                                                                <div class="title">Results <i
+                                                                                        class="fa fa-question-circle"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="right"
+                                                                                        title="By default, the response is formatted as JSON.">
+                                                                                </i> &middot;
+                                                                                    <c:choose>
+                                                                                        <c:when test="${responseValues.getResponseCode().startsWith('1')}">
                                                                                                 <span
                                                                                                         class="fresh-color alert-info"><c:out
                                                                                                         value=" ${responseValues.getResponseCode()}"/></span> &middot;
-                                                                                                <c:out value="${responseTime}"/>
-                                                                                            </c:when>
-                                                                                            <c:when test="${responseValues.getResponseCode().startsWith('2')}">
+                                                                                            <c:out value="${responseTime}"/>
+                                                                                        </c:when>
+                                                                                        <c:when test="${responseValues.getResponseCode().startsWith('2')}">
                                                                                                 <span
                                                                                                         class="fresh-color alert-success"><c:out
                                                                                                         value=" ${responseValues.getResponseCode()}"/></span> &middot;
-                                                                                                <c:out value="${responseTime}"/>
-                                                                                            </c:when>
-                                                                                            <c:when test="${responseValues.getResponseCode().startsWith('3')}">
+                                                                                            <c:out value="${responseTime}"/>
+                                                                                        </c:when>
+                                                                                        <c:when test="${responseValues.getResponseCode().startsWith('3')}">
                                                                                                 <span
                                                                                                         class="fresh-color alert-waning"><c:out
                                                                                                         value=" ${responseValues.getResponseCode()}"/></span> &middot;
-                                                                                                <c:out value="${responseTime}"/>
-                                                                                            </c:when>
-                                                                                            <c:when test="${responseValues.getResponseCode().startsWith('4')}">
+                                                                                            <c:out value="${responseTime}"/>
+                                                                                        </c:when>
+                                                                                        <c:when test="${responseValues.getResponseCode().startsWith('4')}">
                                                                                                 <span
                                                                                                         class="fresh-color alert-danger"><c:out
                                                                                                         value=" ${responseValues.getResponseCode()}"/></span> &middot;
-                                                                                                <c:out value="${responseTime}"/>
-                                                                                            </c:when>
-                                                                                            <c:when test="${responseValues.getResponseCode().startsWith('5')}">
+                                                                                            <c:out value="${responseTime}"/>
+                                                                                        </c:when>
+                                                                                        <c:when test="${responseValues.getResponseCode().startsWith('5')}">
                                                                                                 <span
                                                                                                         class="fresh-color alert-danger"><c:out
                                                                                                         value=" ${responseValues.getResponseCode()}"/></span> &middot;
-                                                                                                <c:out value="${responseTime}"></c:out>
-                                                                                            </c:when>
-                                                                                        </c:choose>
-                                                                                    </div>
+                                                                                            <c:out value="${responseTime}"></c:out>
+                                                                                        </c:when>
+                                                                                    </c:choose>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="card-body no-padding">
+                                                                        </div>
+                                                                        <div class="card-body no-padding">
                                                                                 <textarea id="codeViewer">
                                                                                         <c:out value="${response}"/>
                                                                                 </textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-3 col-md-3">
-                                                                        <div class="card">
-                                                                            <div class="card-header">
-                                                                                <div class="card-title">
-                                                                                    <div class="title">Test</div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="card-body no-padding">
-                                                                                <c:forEach
-                                                                                        items="${resultAssertions}"
-                                                                                        var="entry">
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <b><c:out
-                                                                                                    value="${entry.key}:"/></b>
-                                                                                            <c:choose>
-                                                                                                <c:when test="${entry.value == true}">
-                                                                                                <span class="fresh-color alert-success"><c:out
-                                                                                                        value="${entry.value}"/></span>
-                                                                                                </c:when>
-                                                                                                <c:otherwise>
-                                                                                                <span class="fresh-color alert-danger"><c:out
-                                                                                                        value="${entry.value}"/></span>
-                                                                                                </c:otherwise>
-                                                                                            </c:choose>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </c:forEach>
-                                                                                <c:forEach
-                                                                                        items="${resultAssertionsHeaders}"
-                                                                                        var="entry">
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <b><c:out
-                                                                                                    value="${entry.key}:"/></b>
-                                                                                            <c:choose>
-                                                                                                <c:when test="${entry.value == true}">
-                                                                                                <span class="fresh-color alert-success"><c:out
-                                                                                                        value="${entry.value}"/></span>
-                                                                                                </c:when>
-                                                                                                <c:otherwise>
-                                                                                                <span class="fresh-color alert-danger"><c:out
-                                                                                                        value="${entry.value}"/></span>
-                                                                                                </c:otherwise>
-                                                                                            </c:choose>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </c:forEach>
-                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-7 col-md-7">
-                                                                        <div class="card">
-                                                                            <div class="card-header">
-                                                                                <div class="card-title">
-                                                                                    <div class="title">Headers</div>
-                                                                                </div>
+                                                                <div class="col-lg-3 col-md-3">
+                                                                    <div class="card">
+                                                                        <div class="card-header">
+                                                                            <div class="card-title">
+                                                                                <div class="title">Test</div>
                                                                             </div>
-                                                                            <div class="card-body no-padding">
-                                                                                <div role="tabpanel">
-                                                                                    <!-- Nav tabs -->
-                                                                                    <ul class="nav nav-tabs"
-                                                                                        role="tablist">
-                                                                                        <li role="presentation"
-                                                                                            class="active"><a
-                                                                                                href="#responseHeaders"
-                                                                                                aria-controls="responseHeaders"
-                                                                                                role="tab"
-                                                                                                data-toggle="tab">Response
-                                                                                            Headers
-                                                                                            <small> (<c:out
-                                                                                                    value="${responseHeaders.size()}"/>)
-                                                                                            </small>
-                                                                                        </a></li>
-                                                                                        <li role="presentation"><a
-                                                                                                href="#requestHeaders"
-                                                                                                aria-controls="requestHeaders"
-                                                                                                role="tab"
-                                                                                                data-toggle="tab">Request
-                                                                                            Headers
-                                                                                            <small> (<c:out
-                                                                                                    value="${requestHeaders.size()}"/>)
-                                                                                            </small>
-                                                                                        </a></li>
-                                                                                        <li role="presentation"><a
-                                                                                                href="#generalInfo"
-                                                                                                aria-controls="generalInfo"
-                                                                                                role="tab"
-                                                                                                data-toggle="tab">General
-                                                                                            Info
-                                                                                            <small> (<c:out
-                                                                                                    value="${generalInfo.size()}"/>)
-                                                                                            </small>
-                                                                                        </a></li>
+                                                                        </div>
+                                                                        <div class="card-body no-padding">
+                                                                            <c:forEach
+                                                                                    items="${resultAssertions}"
+                                                                                    var="entry">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <b><c:out
+                                                                                                value="${entry.key}:"/></b>
+                                                                                        <c:choose>
+                                                                                            <c:when test="${entry.value == true}">
+                                                                                                <span class="fresh-color alert-success"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                            </c:when>
+                                                                                            <c:otherwise>
+                                                                                                <span class="fresh-color alert-danger"><c:out
+                                                                                                        value="${entry.value}"/></span>
+                                                                                            </c:otherwise>
+                                                                                        </c:choose>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </c:forEach>
+                                                                            <c:if test="${not empty resultAssertionsHeaders}">
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <b><c:out value="Contains headers test"></c:out></b>
+                                                                                </li>
+                                                                                <ul>
+                                                                                    <c:forEach
+                                                                                            items="${resultAssertionsHeaders}"
+                                                                                            var="entry">
+                                                                                        <c:if test="${!entry.key.equals('Contains headers test')}">
+                                                                                            <li>
+                                                                                                <c:out value="${entry.key}: "></c:out>
+                                                                                                    <span class="${entry.value ? 'fresh-color alert-success' : 'fresh-color alert-danger'}">
+                                                                                                        <c:out value="${entry.value}"/>
+                                                                                                    </span>
+                                                                                            </li>
+                                                                                        </c:if>
+                                                                                    </c:forEach>
+                                                                                </ul>
+                                                                                </c:if>
+                                                                                <c:if test="${not empty resultAssertionsBody}">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <b><c:out value="Body contains test"></c:out></b>
+                                                                                    </li>
+                                                                                    <ul>
+                                                                                        <c:forEach
+                                                                                                items="${resultAssertionsBody.asMap()}"
+                                                                                                var="entry">
+                                                                                            <c:if test="${!entry.key.equals('Body contains test')}">
+                                                                                                <li>
+                                                                                                    <c:out value="${entry.key}: "></c:out>
+                                                                                                    <span class="${entry.value.get(0) ? 'fresh-color alert-success' : 'fresh-color alert-danger'}">
+                                                                                                        <c:out value="${entry.value.get(0)}"/>
+                                                                                                    </span>
+                                                                                                </li>
+                                                                                            </c:if>
+                                                                                        </c:forEach>
                                                                                     </ul>
-                                                                                    <!-- Tab panes -->
-                                                                                    <div class="tab-content">
-                                                                                        <div role="tabpanel"
-                                                                                             class="tab-pane active"
-                                                                                             id="responseHeaders">
-                                                                                            <c:forEach
-                                                                                                    items="${responseHeaders}"
-                                                                                                    var="entry">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <b><span
-                                                                                                                style="text-transform: capitalize"><c:out
-                                                                                                                value="${fn:toLowerCase(entry.key)}:"/></span></b>
-                                                                                                        <c:out
-                                                                                                                value="${entry.value.toString().substring(1, entry.value.toString().length()-1)}"/>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </c:forEach>
-                                                                                        </div>
-                                                                                        <div role="tabpanel"
-                                                                                             class="tab-pane"
-                                                                                             id="requestHeaders">
-                                                                                            <c:forEach
-                                                                                                    items="${requestHeaders}"
-                                                                                                    var="entry">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <b><span
-                                                                                                                style="text-transform: capitalize"><c:out
-                                                                                                                value="${fn:toLowerCase(entry.key)}:"/></span></b>
-                                                                                                        <c:out
-                                                                                                                value="${entry.value.toString()}"/>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </c:forEach>
-                                                                                        </div>
-                                                                                        <div role="tabpanel"
-                                                                                             class="tab-pane"
-                                                                                             id="generalInfo">
-                                                                                            <c:forEach
-                                                                                                    items="${generalInfo}"
-                                                                                                    var="entry">
-                                                                                                <ul>
-                                                                                                    <li>
-                                                                                                        <b><c:out
-                                                                                                                value="${entry.key}: "/></b>
-                                                                                                        <c:out
-                                                                                                                value="${entry.value}"/>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </c:forEach>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                </ul>
+                                                                                </c:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7">
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <div class="card-title">
+                                                                            <div class="title">Headers</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-body no-padding">
+                                                                        <div role="tabpanel">
+                                                                            <!-- Nav tabs -->
+                                                                            <ul class="nav nav-tabs"
+                                                                                role="tablist">
+                                                                                <li role="presentation"
+                                                                                    class="active"><a
+                                                                                        href="#responseHeaders"
+                                                                                        aria-controls="responseHeaders"
+                                                                                        role="tab"
+                                                                                        data-toggle="tab">Response
+                                                                                    Headers
+                                                                                    <small> (<c:out
+                                                                                            value="${responseHeaders.size()}"/>)
+                                                                                    </small>
+                                                                                </a></li>
+                                                                                <li role="presentation"><a
+                                                                                        href="#requestHeaders"
+                                                                                        aria-controls="requestHeaders"
+                                                                                        role="tab"
+                                                                                        data-toggle="tab">Request
+                                                                                    Headers
+                                                                                    <small> (<c:out
+                                                                                            value="${requestHeaders.size()}"/>)
+                                                                                    </small>
+                                                                                </a></li>
+                                                                                <li role="presentation"><a
+                                                                                        href="#generalInfo"
+                                                                                        aria-controls="generalInfo"
+                                                                                        role="tab"
+                                                                                        data-toggle="tab">General
+                                                                                    Info
+                                                                                    <small> (<c:out
+                                                                                            value="${generalInfo.size()}"/>)
+                                                                                    </small>
+                                                                                </a></li>
+                                                                            </ul>
+                                                                            <!-- Tab panes -->
+                                                                            <div class="tab-content">
+                                                                                <div role="tabpanel"
+                                                                                     class="tab-pane active"
+                                                                                     id="responseHeaders">
+                                                                                    <c:forEach
+                                                                                            items="${responseHeaders}"
+                                                                                            var="entry">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <b><span
+                                                                                                        style="text-transform: capitalize"><c:out
+                                                                                                        value="${fn:toLowerCase(entry.key)}:"/></span></b>
+                                                                                                <c:out
+                                                                                                        value="${entry.value.toString().substring(1, entry.value.toString().length()-1)}"/>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </c:forEach>
+                                                                                </div>
+                                                                                <div role="tabpanel"
+                                                                                     class="tab-pane"
+                                                                                     id="requestHeaders">
+                                                                                    <c:forEach
+                                                                                            items="${requestHeaders}"
+                                                                                            var="entry">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <b><span
+                                                                                                        style="text-transform: capitalize"><c:out
+                                                                                                        value="${fn:toLowerCase(entry.key)}:"/></span></b>
+                                                                                                <c:out
+                                                                                                        value="${entry.value.toString()}"/>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </c:forEach>
+                                                                                </div>
+                                                                                <div role="tabpanel"
+                                                                                     class="tab-pane"
+                                                                                     id="generalInfo">
+                                                                                    <c:forEach
+                                                                                            items="${generalInfo}"
+                                                                                            var="entry">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                                <b><c:out
+                                                                                                        value="${entry.key}: "/></b>
+                                                                                                <c:out
+                                                                                                        value="${entry.value}"/>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </c:forEach>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -409,8 +429,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </c:if>
+                                            </div>
                                         </div>
+                                        </c:if>
                                         <div role="tabpanel" class="tab-pane" id="test">
                                             <c:if test="${not empty responseValues and empty errorMessages}">
                                                 <div class="row">
@@ -542,47 +563,45 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- modal -->
-                        <div class="modal fade modal-danger" id="modalConnection" tabindex="-1" role="dialog"
-                             aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">Connection error</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <c:choose>
-                                            <c:when test="${not empty errorMessages.get('con')}">
-                                                <h2>Could not get any response</h2>
-                                                <c:out value="${errorMessages.get('con')}"></c:out> <a
-                                                    href="<c:out value="${url}"></c:out>" style="color: #2e6da4"><c:out
-                                                    value="${url}"></c:out></a>
-                                                <br>
-                                                Try the following suggestions:
-                                                <ul>
-                                                    <li>Check if the backend is running.</li>
-                                                    <li>Check the URL it might be misspelled.</li>
-                                                    <li>Try changing the timeout.</li>
-                                                </ul>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <h2>Parser error</h2>
-                                                <c:out value="${errorMessages.get('parser')}"></c:out>
-                                                <br>
-                                                Try checking all the parameters are JSON style format.
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                    </div>
+                    </div>
+                    <div class="modal fade modal-danger" id="modalConnection" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Connection error</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <c:choose>
+                                        <c:when test="${not empty errorMessages.get('con')}">
+                                            <h2>Could not get any response</h2>
+                                            <c:out value="${errorMessages.get('con')}"></c:out> <a
+                                                href="<c:out value="${url}"></c:out>" style="color: #2e6da4"><c:out
+                                                value="${url}"></c:out></a>
+                                            <br>
+                                            Try the following suggestions:
+                                            <ul>
+                                                <li>Check if the backend is running.</li>
+                                                <li>Check the URL it might be misspelled.</li>
+                                                <li>Try changing the timeout.</li>
+                                            </ul>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h2>Parser error</h2>
+                                            <c:out value="${errorMessages.get('parser')}"></c:out>
+                                            <br>
+                                            Try checking all the parameters are JSON style format.
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <!-- fin modal -->
                     </div>
                 </div>
             </div>

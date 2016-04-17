@@ -1,28 +1,30 @@
 package es.us.lsi.restest.engine;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import com.mashape.unirest.http.HttpResponse;
 import es.us.lsi.restest.controllers.RequestController;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class Assertions {
     public static AbstractMap<String, Boolean> resultAssertions = new HashMap<>();
     public static AbstractMap<String, Boolean> resultAssertionsHeaders = new HashMap<>();
-    public static AbstractMap<String, Boolean> resultAssertionsBody = new HashMap<>();
+    public static LinkedListMultimap<String, Boolean> resultAssertionsBody = LinkedListMultimap.create();
+    public static LinkedListMultimap<String, String> localParams = LinkedListMultimap.create();
 
     public static AbstractMap<String, Boolean> executeTests(Object test, HttpResponse<InputStream> jsonResponse, Long responseTime, StringBuilder response) {
         try {
             AbstractMap<String, String> potentialTest = RequestAnswer.parser(test);
             resultAssertions = new HashMap<>();
             resultAssertionsHeaders = new HashMap<>();
+            resultAssertionsBody = LinkedListMultimap.create();
             for (AbstractMap.Entry<String, String> entry : potentialTest.entrySet()) {
                 switch (entry.getKey().toUpperCase()) {
                     case "STATUS-CODE":
@@ -35,10 +37,11 @@ public class Assertions {
                         compareContainsHeader(entry.getValue(), jsonResponse);
                         break;
                     case "BODY-CONTAINS":
-                        resultAssertionsBody.put("Contains body", compareBody(entry.getValue(), response));
+                        compareBody(entry.getValue(), response);
                         break;
                     case "POSITIVE-POST-REQUEST":
                         resultAssertions.put("Positive Post request", compareSuccessfulPostRequest(jsonResponse));
+                        break;
                 }
             }
         } catch (JSONException e) {
@@ -57,9 +60,33 @@ public class Assertions {
         return jsonResponse.getStatus() == 201 | jsonResponse.getStatus() == 202;
     }
 
-    private static Boolean compareBody(String toTest, StringBuilder response) {
-        Map<String, String> extendedMap = parserExtended(toTest);
-        return true;
+    /**
+     * Comprueba que el cuerpo de un mensaje contiene los parámetros esperados
+     *
+     * @param toTest   JSON que se espera
+     * @param response JSON que se recibe de la respuesta
+     * @return true si el JSON que se espera contiene lo especificado por parametros
+     */
+    private static void compareBody(String toTest, StringBuilder response) {
+        Multimap<String, String> toTestMap = parserExtended(toTest);
+        clearLocalParams();
+        Multimap<String, String> responseMap = parserExtended(response);
+        clearLocalParams();
+        resultAssertionsBody.put("Body contains test", null);
+        for (Map.Entry<String, Collection<String>> entry : toTestMap.asMap().entrySet()) {
+            if (responseMap.keySet().contains(entry.getKey())) {
+                for (String aux : toTestMap.asMap().get(entry.getKey())) {
+                    LinkedList<String> list = new LinkedList<>(responseMap.asMap().get(entry.getKey()));
+                    for (String auxList : list) {
+                        if (auxList.contains(aux)) {
+                            resultAssertionsBody.put(entry.getKey(), true);
+                        } else if (list.getLast().equals(auxList)) {
+                            resultAssertionsBody.put(entry.getKey(), false);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -101,8 +128,7 @@ public class Assertions {
         return test.equalsIgnoreCase(Integer.toString(jsonResponse.getStatus()));
     }
 
-    private static AbstractMap<String, String> parserExtended(Object params) throws JSONException {
-        AbstractMap<String, String> localParams = new HashMap<>();
+    private static Multimap<String, String> parserExtended(Object params) throws JSONException {
         if (params != "") {
             JSONObject json = new JSONObject(params.toString());
             Iterator<String> iter = json.keys();
@@ -112,14 +138,24 @@ public class Assertions {
                     Object value = json.get(key);
                     if (value.toString().startsWith("{")) {
                         parserExtended(value.toString());
+                    } else if (value.toString().startsWith("[{")) {
+                        JSONArray elementsOnArray = json.getJSONArray(key);
+                        for (int i = 0; i <= elementsOnArray.length() - 1; i++) {
+                            if (!elementsOnArray.get(i).equals(null)) {
+                                parserExtended(elementsOnArray.get(i).toString());
+                            }
+                        }
                     }
                     localParams.put(key, value.toString());
                 } catch (JSONException e) {
                     RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
                 }
-
             }
         }
         return localParams;
+    }
+
+    private static void clearLocalParams() {
+        localParams = LinkedListMultimap.create();
     }
 }
