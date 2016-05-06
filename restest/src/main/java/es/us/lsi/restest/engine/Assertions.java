@@ -65,7 +65,6 @@ public class Assertions {
      *
      * @param toTest   JSON que se espera
      * @param response JSON que se recibe de la respuesta
-     * @return true si el JSON que se espera contiene lo especificado por parametros
      */
     private static void compareBody(String toTest, StringBuilder response) {
         Multimap<String, String> toTestMap = parserExtended(toTest);
@@ -78,7 +77,7 @@ public class Assertions {
                 for (String aux : toTestMap.asMap().get(entry.getKey())) {
                     LinkedList<String> list = new LinkedList<>(responseMap.asMap().get(entry.getKey()));
                     for (String auxList : list) {
-                        if (auxList.contains(aux)) {
+                        if (auxList.equals(aux)) {
                             resultAssertionsBody.put(entry.getKey(), true);
                         } else if (list.getLast().equals(auxList)) {
                             resultAssertionsBody.put(entry.getKey(), false);

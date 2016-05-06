@@ -4,7 +4,6 @@ package es.us.lsi.restest.engine;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import es.us.lsi.restest.controllers.RequestController;
 import groovy.json.JsonException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +16,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static es.us.lsi.restest.controllers.RequestController.exceptionMessages;
+import static es.us.lsi.restest.controllers.RequestController.responseValues;
+
 @Service
 public class RequestAnswer {
 
@@ -24,7 +26,16 @@ public class RequestAnswer {
     private static final Long SOCKET_TIMEOUT = 10000L;
     public static Map<String, String> generalInfo = new HashMap<>();
 
-    // HTTP GET request
+    /**
+     * Envia una peticion GET a la URL y devuelve toda la informacion disponible sobre el cuerpo, cabeceras, conexion y
+     * tiempo
+     *
+     * @param strURL            url donde se va a hacer la peticion
+     * @param headers           cabeceras que se quieran agregar a la peticion
+     * @param connectionTimeout connectionTimeout que se quiere para la llamada
+     * @param socketTimeout     socketTimeout que se quiere para la llamada
+     * @param testsToPerform    los tests que se quieran realizar relacionados con la llamada y el resultado de la misma
+     */
     public static void sendGet(String strURL, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localHeaders;
@@ -83,26 +94,26 @@ public class RequestAnswer {
             }
             in.close();
             if (response.length() != 0) {
-                RequestController.responseValues.setResponse(new StringBuilder(response));
+                responseValues.setResponse(new StringBuilder(response));
             } else {
-                RequestController.responseValues.setResponse(new StringBuilder("No data"));
+                responseValues.setResponse(new StringBuilder("No data"));
             }
 
             Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
         } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (JsonException e) {
-            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+            exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
@@ -169,25 +180,25 @@ public class RequestAnswer {
 
 
             if (response.length() != 0) {
-                RequestController.responseValues.setResponse(new StringBuilder(response));
+                responseValues.setResponse(new StringBuilder(response));
             } else {
-                RequestController.responseValues.setResponse(new StringBuilder("No data"));
+                responseValues.setResponse(new StringBuilder("No data"));
             }
             Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
         } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (JsonException e) {
-            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+            exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
@@ -253,25 +264,25 @@ public class RequestAnswer {
 
 
             if (response.length() != 0) {
-                RequestController.responseValues.setResponse(new StringBuilder(response));
+                responseValues.setResponse(new StringBuilder(response));
             } else {
-                RequestController.responseValues.setResponse(new StringBuilder("No data"));
+                responseValues.setResponse(new StringBuilder("No data"));
             }
             Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
         } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (JsonException e) {
-            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+            exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
@@ -336,25 +347,25 @@ public class RequestAnswer {
 
 
             if (response.length() != 0) {
-                RequestController.responseValues.setResponse(new StringBuilder(response));
+                responseValues.setResponse(new StringBuilder(response));
             } else {
-                RequestController.responseValues.setResponse(new StringBuilder("No data"));
+                responseValues.setResponse(new StringBuilder("No data"));
             }
             Assertions.executeTests(testsToPerform, jsonResponse, elapsedTime, response);
         } catch (UnirestException | SocketTimeoutException e) {
             e.printStackTrace();
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (MalformedURLException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            RequestController.exceptionMessages.put("url", "The URL is not well formed.");
+            exceptionMessages.put("url", "The URL is not well formed.");
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            RequestController.exceptionMessages.put("con", "This seems to be like an error connecting to ");
+            exceptionMessages.put("con", "This seems to be like an error connecting to ");
         } catch (JsonException e) {
-            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+            exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
     }
 
@@ -374,12 +385,12 @@ public class RequestAnswer {
         generalInfo.put("Filename", url.getFile());
         generalInfo.put("Ref", url.getRef());
 
-        RequestController.responseValues.resetProperties();
-        RequestController.responseValues.setRequestHeaders(localHeaders);
-        RequestController.responseValues.setResponseHeaders(jsonResponse.getHeaders());
-        RequestController.responseValues.setGeneralInfo(generalInfo);
-        RequestController.responseValues.setResponseTime(responseTime);
-        RequestController.responseValues.setResponseCode(Integer.toString(responseCode) + " " + jsonResponse.getStatusText());
+        responseValues.resetProperties();
+        responseValues.setRequestHeaders(localHeaders);
+        responseValues.setResponseHeaders(jsonResponse.getHeaders());
+        responseValues.setGeneralInfo(generalInfo);
+        responseValues.setResponseTime(responseTime);
+        responseValues.setResponseCode(Integer.toString(responseCode) + " " + jsonResponse.getStatusText());
     }
 
     private static void handlingException(HttpURLConnection con) throws IOException {
@@ -392,7 +403,7 @@ public class RequestAnswer {
             response.append(inputLine);
         }
         in.close();
-        RequestController.responseValues.setResponse(new StringBuilder(response));
+        responseValues.setResponse(new StringBuilder(response));
     }
 
     private static String getQuery(AbstractMap<String, String> params) throws UnsupportedEncodingException {
@@ -425,7 +436,7 @@ public class RequestAnswer {
                     Object value = json.get(key);
                     localParams.put(key, value.toString());
                 } catch (JSONException e) {
-                    RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+                    exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
                 }
             }
         }
