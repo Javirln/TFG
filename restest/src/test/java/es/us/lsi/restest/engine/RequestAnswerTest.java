@@ -12,9 +12,9 @@ public class RequestAnswerTest {
     private String urlJsonPlaceHolder = "http://jsonplaceholder.typicode.com/posts";
     private String genericUrl = "http://httpbin.org/delete";
 
-    @org.junit.Test
+    @Test
     public void testSendGet() throws Exception {
-        String headers = new String("{\r\n \r\n}");
+        String headers = "{\r\n \r\n}";
         Integer connectionTimeout = new Integer("0");
         Integer socketTimeout = new Integer("0");
         String testToPerform = "";
@@ -31,8 +31,8 @@ public class RequestAnswerTest {
 
     @Test
     public void testSendPost() throws Exception {
-        String params = new String("{'id': 1,'title':'titleToTest','body': 'bodyToTest','userId': 1 }");
-        String headers = new String("{\r\n \r\n}");
+        String params = "{'id': 1,'title':'titleToTest','body': 'bodyToTest','userId': 1 }";
+        String headers = "{\r\n \r\n}";
         Integer connectionTimeout = new Integer("0");
         Integer socketTimeout = new Integer("0");
         String testToPerform = "";
@@ -45,8 +45,8 @@ public class RequestAnswerTest {
 
     @Test
     public void testSendPut() throws Exception {
-        String params = new String("{'id': 1,'title':'titleToTest','body': 'bodyToTest','userId': 1 }");
-        String headers = new String("{\r\n \r\n}");
+        String params = "{'id': 1,'title':'titleToTest','body': 'bodyToTest','userId': 1 }";
+        String headers = "{\r\n \r\n}";
         Integer connectionTimeout = new Integer("0");
         Integer socketTimeout = new Integer("0");
         String testToPerform = "";
@@ -62,8 +62,8 @@ public class RequestAnswerTest {
 
     @Test
     public void testSendDelete() throws Exception {
-        String params = new String("{\n" + " \n" + "}");
-        String headers = new String("{\r\n \r\n}");
+        String params = "{\n" + " \n" + "}";
+        String headers = "{\r\n \r\n}";
         Integer connectionTimeout = new Integer("0");
         Integer socketTimeout = new Integer("0");
         String testToPerform = "";
@@ -72,7 +72,7 @@ public class RequestAnswerTest {
 
         Assert.assertEquals("200 OK", responseValues.getResponseCode());
 
-        params = new String("{\r\n 'name': 'mark' \r\n}");
+        params = "{\r\n 'name': 'mark' \r\n}";
         RequestAnswer.sendDelete(genericUrl, params, headers, connectionTimeout, socketTimeout, testToPerform);
 
         assertTrue(responseValues.getResponse().toString().contains("mark"));

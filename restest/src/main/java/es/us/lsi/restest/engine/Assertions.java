@@ -16,6 +16,7 @@ import java.util.*;
 public class Assertions {
     public static AbstractMap<String, Boolean> resultAssertions = new HashMap<>();
     public static AbstractMap<String, Boolean> resultAssertionsHeaders = new HashMap<>();
+    public static AbstractMap<String, Boolean> resultVersioningHeader = new HashMap<>();
     public static LinkedListMultimap<String, Boolean> resultAssertionsBody = LinkedListMultimap.create();
     public static LinkedListMultimap<String, String> localParams = LinkedListMultimap.create();
 
@@ -42,6 +43,8 @@ public class Assertions {
                     case "POSITIVE-POST-REQUEST":
                         resultAssertions.put("Positive Post request", compareSuccessfulPostRequest(jsonResponse));
                         break;
+                    case "VERSIONING":
+                        compareVersioningHeader(entry.getValue(), jsonResponse);
                 }
             }
         } catch (JSONException e) {
@@ -101,6 +104,23 @@ public class Assertions {
         for (Map.Entry<String, String> entry : headersToTest.entrySet()) {
             if (jsonResponse.getHeaders().keySet().contains(entry.getKey().toLowerCase())) {
                 resultAssertionsHeaders.put(entry.getKey(), jsonResponse.getHeaders().get(entry.getKey().toLowerCase()).contains(entry.getValue()));
+            }
+        }
+    }
+
+    /**
+     * Comprueba si existe una cabecera con la version de la API
+     *
+     * @param headerValue  cabeceras a probar
+     * @param jsonResponse respuesta completa recibida por el servidor
+     */
+    private static void compareVersioningHeader(Object headerValue, HttpResponse<InputStream> jsonResponse) {
+        AbstractMap<String, String> headersToTest = RequestAnswer.parser(headerValue);
+        resultVersioningHeader = new HashMap<>();
+        resultVersioningHeader.put("Versioning test", null);
+        for (Map.Entry<String, String> entry : headersToTest.entrySet()) {
+            if (jsonResponse.getHeaders().keySet().contains(entry.getKey().toLowerCase())) {
+                resultVersioningHeader.put(entry.getKey(), jsonResponse.getHeaders().get(entry.getKey().toLowerCase()).contains(entry.getValue()));
             }
         }
     }

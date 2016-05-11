@@ -160,7 +160,7 @@
                                                                                 class="fa fa-question-circle"
                                                                                 data-toggle="tooltip"
                                                                                 data-placement="right"
-                                                                                title="Values must have be in JSON format."></i>
+                                                                                title="Values must be in JSON format."></i>
                                                                         </div>
                                                                         <div>
                                                                                 <textarea id="params"
@@ -173,7 +173,7 @@
                                                                                 class="fa fa-question-circle"
                                                                                 data-toggle="tooltip"
                                                                                 data-placement="right"
-                                                                                title="Values must have be in JSON format."></i>
+                                                                                title="Values must be in JSON format."></i>
                                                                         </div>
                                                                         <div>
                                                                                 <textarea id="headersToSend"
@@ -294,27 +294,50 @@
                                                                                 </ul>
                                                                             </c:forEach>
                                                                             <c:if test="${not empty resultAssertionsHeaders}">
-                                                                            <ul>
-                                                                                <li>
-                                                                                    <b><c:out
-                                                                                            value="Contains headers test"></c:out></b>
-                                                                                </li>
                                                                                 <ul>
-                                                                                    <c:forEach
-                                                                                            items="${resultAssertionsHeaders}"
-                                                                                            var="entry">
-                                                                                        <c:if test="${!entry.key.equals('Contains headers test')}">
-                                                                                            <li>
-                                                                                                <c:out value="${entry.key}: "></c:out>
+                                                                                    <li>
+                                                                                        <b><c:out
+                                                                                                value="Contains headers test"></c:out></b>
+                                                                                    </li>
+                                                                                    <ul>
+                                                                                        <c:forEach
+                                                                                                items="${resultAssertionsHeaders}"
+                                                                                                var="entry">
+                                                                                            <c:if test="${!entry.key.equals('Contains headers test')}">
+                                                                                                <li>
+                                                                                                    <c:out value="${entry.key}: "></c:out>
                                                                                                     <span class="${entry.value ? 'fresh-color alert-success' : 'fresh-color alert-danger'}">
                                                                                                         <c:out value="${entry.value}"/>
                                                                                                     </span>
-                                                                                            </li>
-                                                                                        </c:if>
-                                                                                    </c:forEach>
+                                                                                                </li>
+                                                                                            </c:if>
+                                                                                        </c:forEach>
+                                                                                    </ul>
                                                                                 </ul>
-                                                                                </c:if>
-                                                                                <c:if test="${not empty resultAssertionsBody}">
+                                                                            </c:if>
+                                                                            <c:if test="${not empty resultVersioningHeaders}">
+                                                                                <ul>
+                                                                                    <li>
+                                                                                        <b><c:out
+                                                                                                value="Versioning test"></c:out></b>
+                                                                                    </li>
+                                                                                    <ul>
+                                                                                        <c:forEach
+                                                                                                items="${resultVersioningHeaders}"
+                                                                                                var="entry">
+                                                                                            <c:if test="${!entry.key.equals('Versioning test')}">
+                                                                                                <li>
+                                                                                                    <c:out value="${entry.key}: "></c:out>
+                                                                                                    <span class="${entry.value ? 'fresh-color alert-success' : 'fresh-color alert-danger'}">
+                                                                                                        <c:out value="${entry.value}"/>
+                                                                                                    </span>
+                                                                                                </li>
+                                                                                            </c:if>
+                                                                                        </c:forEach>
+                                                                                    </ul>
+                                                                                </ul>
+                                                                            </c:if>
+                                                                            <c:if test="${resultAssertionsBody.size() != 0}">
                                                                                 <ul>
                                                                                     <li>
                                                                                         <b><c:out
@@ -335,7 +358,7 @@
                                                                                         </c:forEach>
                                                                                     </ul>
                                                                                 </ul>
-                                                                                </c:if>
+                                                                            </c:if>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -593,7 +616,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <span>There are 5 different assertions that can be performed:</span>
+                                            <span>There are 6 different assertions that can be performed:</span>
                                             <br>
                                             <span>All code presented below must be written in JSON format and several assertions can be used at the same time, always keeping their syntax.</span>
                                             <ul>
@@ -657,6 +680,21 @@
                                                     <i>Example:</i>
                                                     <br>
                                                     <code>"POSITIVE-POST-REQUEST": "true"</code>
+                                                    <br>
+                                                    <br>
+                                                </li>
+                                                <li><strong>Versioning:</strong> Check whether the response
+                                                    contains a header specifying the version of the API.
+                                                    <br>
+                                                    <span>Key and value format always depending on the vendor.</span>
+                                                    <br>
+                                                    <i>Syntax: </i> <code>VERSIONING: { "key1":value1" }</code>
+                                                    <br>
+                                                    <i>Example:</i>
+                                                    <br>
+                                                    <code>"VERSIONING": { "version": "v2" }</code>
+                                                    <br>
+                                                    <br>
                                                 </li>
                                             </ul>
                                         </div>

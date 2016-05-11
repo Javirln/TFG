@@ -70,6 +70,7 @@ public class RequestController {
         model.addObject("index", responseValues.getContentType());
         model.addObject("resultAssertions", Assertions.resultAssertions);
         model.addObject("resultAssertionsHeaders", Assertions.resultAssertionsHeaders);
+        model.addObject("resultVersioningHeaders", Assertions.resultVersioningHeader);
         model.addObject("resultAssertionsBody", Assertions.resultAssertionsBody);
         model.addObject("errorMessages", new HashMap<>(exceptionMessages));
 

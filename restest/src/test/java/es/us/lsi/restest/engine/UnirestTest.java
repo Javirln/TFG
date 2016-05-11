@@ -42,7 +42,6 @@ import org.junit.Test;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -60,7 +59,7 @@ public class UnirestTest {
         status = false;
     }
 
-    private String findAvailableIpAddress() throws UnknownHostException, IOException {
+    private String findAvailableIpAddress() throws IOException {
         for (int i = 100; i <= 255; i++) {
             String ip = "192.168.1." + i;
             if (!InetAddress.getByName(ip).isReachable(1000)) {
@@ -507,7 +506,7 @@ public class UnirestTest {
     }
 
     @Test
-    public void testSetTimeouts() throws UnknownHostException, IOException {
+    public void testSetTimeouts() throws IOException {
         String address = "http://" + findAvailableIpAddress() + "/";
         long start = System.currentTimeMillis();
         try {

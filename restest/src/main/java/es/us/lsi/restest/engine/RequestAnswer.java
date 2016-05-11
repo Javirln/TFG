@@ -49,8 +49,6 @@ public class RequestAnswer {
 
             SemanticAnalysis.checkURL(url);
 
-
-
             if (connectionTimeout == null) {
                 localTimeout = RequestAnswer.CONNECTION_TIMEOUT;
             } else {
@@ -442,6 +440,5 @@ public class RequestAnswer {
         }
         return localParams;
     }
-
 
 }
