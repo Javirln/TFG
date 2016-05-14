@@ -104,6 +104,8 @@ public class Assertions {
         for (Map.Entry<String, String> entry : headersToTest.entrySet()) {
             if (jsonResponse.getHeaders().keySet().contains(entry.getKey().toLowerCase())) {
                 resultAssertionsHeaders.put(entry.getKey(), jsonResponse.getHeaders().get(entry.getKey().toLowerCase()).contains(entry.getValue()));
+            } else {
+                resultAssertionsHeaders.put(entry.getKey(), false);
             }
         }
     }
@@ -121,6 +123,8 @@ public class Assertions {
         for (Map.Entry<String, String> entry : headersToTest.entrySet()) {
             if (jsonResponse.getHeaders().keySet().contains(entry.getKey().toLowerCase())) {
                 resultVersioningHeader.put(entry.getKey(), jsonResponse.getHeaders().get(entry.getKey().toLowerCase()).contains(entry.getValue()));
+            } else {
+                resultVersioningHeader.put(entry.getKey(), false);
             }
         }
     }

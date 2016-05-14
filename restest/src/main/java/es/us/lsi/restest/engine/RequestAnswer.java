@@ -116,7 +116,14 @@ public class RequestAnswer {
     }
 
 
-    // HTTP POST request
+    /**
+     * @param strURL
+     * @param params
+     * @param headers
+     * @param connectionTimeout
+     * @param socketTimeout
+     * @param testsToPerform
+     */
     public static void sendPost(String strURL, Object params, Object headers, Integer connectionTimeout, Integer socketTimeout, Object testsToPerform) {
         try {
             AbstractMap<String, String> localParams;

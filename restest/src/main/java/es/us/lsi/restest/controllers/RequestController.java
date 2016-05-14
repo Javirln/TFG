@@ -1,9 +1,9 @@
 package es.us.lsi.restest.controllers;
 
-import es.us.lsi.restest.domain.APIResponse;
 import es.us.lsi.restest.engine.Assertions;
 import es.us.lsi.restest.engine.RequestAnswer;
 import es.us.lsi.restest.engine.SemanticAnalysis;
+import es.us.lsi.restest.utils.APIResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +27,7 @@ public class RequestController {
         return ClassUtils.getShortName(ex.getClass());
     }
 
-    @RequestMapping(value = "/sendRequest", method = RequestMethod.POST)
+    @RequestMapping(value = "/request", method = RequestMethod.POST)
     public ModelAndView sendRequest(@RequestParam("url") String url,
                                     @RequestParam("method") String method,
                                     @RequestParam("params") String params,

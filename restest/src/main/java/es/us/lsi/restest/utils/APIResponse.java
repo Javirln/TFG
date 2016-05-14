@@ -1,4 +1,4 @@
-package es.us.lsi.restest.domain;
+package es.us.lsi.restest.utils;
 
 import java.util.HashMap;
 import java.util.List;

@@ -44,7 +44,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
-                                                            <form id="mainForm" class="form" action="sendRequest"
+                                                            <form id="mainForm" class="form" action="request"
                                                                   method="post">
                                                                 <div class="form-group">
                                                                     <div class="sub-title">URL:</div>
