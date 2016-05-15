@@ -3,7 +3,6 @@ package es.us.lsi.restest.controllers;
 import es.us.lsi.restest.engine.Assertions;
 import es.us.lsi.restest.engine.RequestAnswer;
 import es.us.lsi.restest.engine.SemanticAnalysis;
-import es.us.lsi.restest.utils.APIResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,10 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static es.us.lsi.restest.engine.RequestAnswer.responseValues;
+
 
 @Controller
 public class RequestController {
-    public static APIResponse responseValues = new APIResponse();
     public static Map<String, String> exceptionMessages = new HashMap<>();
 
     @ExceptionHandler(Throwable.class)

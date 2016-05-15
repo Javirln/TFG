@@ -3,7 +3,6 @@ package es.us.lsi.restest.engine;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import com.mashape.unirest.http.HttpResponse;
-import es.us.lsi.restest.controllers.RequestController;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.*;
+
+import static es.us.lsi.restest.controllers.RequestController.exceptionMessages;
 
 @Service
 public class Assertions {
@@ -48,7 +49,7 @@ public class Assertions {
                 }
             }
         } catch (JSONException e) {
-            RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+            exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
         }
         return Assertions.resultAssertions;
     }
@@ -171,7 +172,7 @@ public class Assertions {
                     }
                     localParams.put(key, value.toString());
                 } catch (JSONException e) {
-                    RequestController.exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
+                    exceptionMessages.put("parser", "There has been a problem parsing your custom values (params, request headers or tests).");
                 }
             }
         }

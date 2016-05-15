@@ -4,26 +4,31 @@ package es.us.lsi.restest.engine;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import es.us.lsi.restest.utils.APIResponse;
 import groovy.json.JsonException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import static es.us.lsi.restest.controllers.RequestController.exceptionMessages;
-import static es.us.lsi.restest.controllers.RequestController.responseValues;
 
 @Service
 public class RequestAnswer {
-
     private static final Long CONNECTION_TIMEOUT = 10000L;
     private static final Long SOCKET_TIMEOUT = 10000L;
+    public static APIResponse responseValues = new APIResponse();
     public static Map<String, String> generalInfo = new HashMap<>();
 
     /**
@@ -396,38 +401,6 @@ public class RequestAnswer {
         responseValues.setGeneralInfo(generalInfo);
         responseValues.setResponseTime(responseTime);
         responseValues.setResponseCode(Integer.toString(responseCode) + " " + jsonResponse.getStatusText());
-    }
-
-    private static void handlingException(HttpURLConnection con) throws IOException {
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getErrorStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
-
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        responseValues.setResponse(new StringBuilder(response));
-    }
-
-    private static String getQuery(AbstractMap<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        for (Map.Entry<String, String> pair : params.entrySet()) {
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(pair.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-        }
-        System.out.println(result.toString());
-
-        return result.toString();
     }
 
     public static AbstractMap<String, String> parser(Object params) throws JSONException {

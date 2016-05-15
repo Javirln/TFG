@@ -3,7 +3,7 @@ package es.us.lsi.restest.engine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static es.us.lsi.restest.controllers.RequestController.responseValues;
+import static es.us.lsi.restest.engine.RequestAnswer.responseValues;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
