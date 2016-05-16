@@ -1,10 +1,14 @@
 package es.us.lsi.restest.utils;
 
+import groovy.lang.Singleton;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Singleton
 public class APIResponse {
+    private static APIResponse apiResponse = new APIResponse();
 
     private Map<String, List<String>> responseHeaders = new HashMap<>();
     private String responseCode = "";
@@ -13,8 +17,15 @@ public class APIResponse {
     private StringBuilder response = new StringBuilder();
     private Long responseTime = 0L;
 
-    public APIResponse() {
+    private APIResponse() {
         super();
+    }
+
+    public static APIResponse getInstance() {
+        if (apiResponse == null) {
+            apiResponse = new APIResponse();
+        }
+        return apiResponse;
     }
 
     public int getContentType() throws Exception {
