@@ -27,7 +27,7 @@ import static es.us.lsi.restest.controllers.RequestController.exceptionMessages;
 @Service
 public class RequestAnswer {
     private static final Long CONNECTION_TIMEOUT = 10000L;
-    private static final Long SOCKET_TIMEOUT = 10000L;
+    private static final Long SOCKET_TIMEOUT = 60000L;
     public static APIResponse responseValues = APIResponse.getInstance();
     public static Map<String, String> generalInfo = new HashMap<>();
 
