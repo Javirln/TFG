@@ -225,9 +225,7 @@ public class SemanticAnalysis {
         generalTest.put("Trailing forward slash", testTrailingForwardSlash(url.toString()));
         generalTest.put("Extension", testExtension(url.toString()));
 
-
         resultMapPath.put(url.toString(), new HashMap<>(generalTest));
-
 
         String[] pathParts = path.split("/");
         for (int i = 1; i <= pathParts.length - 1; i++) {

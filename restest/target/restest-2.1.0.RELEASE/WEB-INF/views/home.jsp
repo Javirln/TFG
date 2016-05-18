@@ -644,7 +644,7 @@
                                                     <br>
                                                     <br>
                                                 </li>
-                                                <li><strong>Contains headers:</strong>Check whether the response
+                                                <li><strong>Contains headers:</strong> Check whether the response
                                                     contains the specified headers.
                                                     <br>
                                                     <i>Syntax: </i> <code>CONTAINS-HEADERS: { "key1":value1",
