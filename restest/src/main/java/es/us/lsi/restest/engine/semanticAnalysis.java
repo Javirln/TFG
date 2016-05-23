@@ -31,7 +31,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si es la @uri es de la forma Hyphen
      */
-    private static boolean testHyphen(String param) {
+    private static Boolean testHyphen(String param) {
         return param.matches("(.*)-(.*)");
     }
 
@@ -41,7 +41,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si es la @uri es de la forma Snake
      */
-    private static boolean testSnakeCase(String param) {
+    private static Boolean testSnakeCase(String param) {
         return param.matches("(.*)_(.*)");
     }
 
@@ -51,7 +51,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si la @uri tiene palabras camelCase
      */
-    private static boolean testCamelCase(String param) {
+    private static Boolean testCamelCase(String param) {
         boolean res = false;
         if (!param.isEmpty()) {
             if (Character.isLowerCase(param.charAt(0)) && !StringUtils.isAllUpperCase(param)) {
@@ -70,7 +70,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si la @uri tiene palabras PascalCase
      */
-    private static boolean testPascalCase(String param) {
+    private static Boolean testPascalCase(String param) {
         boolean res = false;
         if (!param.isEmpty()) {
             if (Character.isUpperCase(param.charAt(0)) && !StringUtils.isAllUpperCase(param)) {
@@ -103,11 +103,11 @@ public class SemanticAnalysis {
      * @param param
      * @return true si @uri es un número
      */
-    private static boolean testFullNumber(String param) {
+    private static Boolean testFullNumber(String param) {
         return param.matches("(\\d+.\\d+?)|(\\d+)");
     }
 
-    private static boolean testAlphanumeric(String param) {
+    private static Boolean testAlphanumeric(String param) {
         return StringUtils.isAlphanumeric(param);
     }
 
@@ -117,7 +117,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si contiene el parametro de la version
      */
-    private static boolean testVersioning(String param) {
+    private static Boolean testVersioning(String param) {
         return param.startsWith("v") && param.substring(1, param.length()).matches("(\\d+.\\d+?)|(\\d+)");
     }
 
@@ -127,7 +127,7 @@ public class SemanticAnalysis {
      * @param param
      * @return true si está en minúscula
      */
-    private static boolean testLowerCase(String param) {
+    private static Boolean testLowerCase(String param) {
         return StringUtils.isAllLowerCase(param);
     }
 
@@ -137,7 +137,7 @@ public class SemanticAnalysis {
      * @param url
      * @return true si termina en /
      */
-    private static boolean testTrailingForwardSlash(String url) {
+    private static Boolean testTrailingForwardSlash(String url) {
         return url.charAt(url.length() - 1) == '/';
     }
 
@@ -147,7 +147,7 @@ public class SemanticAnalysis {
      * @param url
      * @return true si contiene una extension registrada
      */
-    private static boolean testExtension(String url) {
+    private static Boolean testExtension(String url) {
         boolean res = false;
         try {
             StringBuilder fileToString = new StringBuilder();
